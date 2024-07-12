@@ -7,6 +7,7 @@ on:
   push:
     branches:
       - master
+      - react-scratch-branch
   workflow_dispatch:
 
 jobs:
