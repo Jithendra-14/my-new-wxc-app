@@ -3,10 +3,10 @@ const common = require('./webpack.common.js');
 const path = require('path');
 
 module.exports = merge(common, {
-  mode: 'production',
-  devtool: 'source-map',
+  mode: "production",
+  devtool: "source-map",
   output: {
-    filename: 'bundle.[contenthash].js',
-    path: path.resolve(__dirname, 'dist'),
+    filename: "bundle.[contenthash].js",
+    path: path.resolve(__dirname, "build"),
   },
 });
