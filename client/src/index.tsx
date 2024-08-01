@@ -1,15 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./index.css";
+import { ContextProvider } from "./context";
+import { BrowserRouter as Router } from "react-router-dom";
+import { initializeIcons } from "@fluentui/react/lib/Icons";
+import reportWebVitals from "./reportWebVitals";
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-root.render(
+initializeIcons();
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <App />
+    <Router>
+      <ContextProvider>
+        <App />
+      </ContextProvider>
+    </Router>
   </React.StrictMode>
 );
 
