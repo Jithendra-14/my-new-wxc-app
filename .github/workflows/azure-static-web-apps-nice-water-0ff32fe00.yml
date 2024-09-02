@@ -25,18 +25,6 @@ jobs:
         with:
           node-version: '20'
       
-      - name: Install Dependencies
-        run: npm install
-        working-directory: ./client
-      
-      - name: Build Project
-        run: npm run build
-        working-directory: ./client
-      
-      - name: List Build Files
-        run: ls -R build
-        working-directory: ./client
-      
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
