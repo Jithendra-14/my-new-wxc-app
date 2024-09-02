@@ -25,11 +25,17 @@ jobs:
         with:
           node-version: '20'
       
-      - name: Build Application
-        run: npm run build # Adjust this command based on your actual build command
+      - name: Install Dependencies
+        run: npm install
+        working-directory: ./client
       
-      - name: List Build Directory Contents
-        run: ls -R ./build # Lists all files in the build directory recursively
+      - name: Build Project
+        run: npm run build
+        working-directory: ./client
+      
+      - name: List Build Files
+        run: ls -R build
+        working-directory: ./client
       
       - name: Build And Deploy
         id: builddeploy
