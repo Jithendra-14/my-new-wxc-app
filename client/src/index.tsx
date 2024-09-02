@@ -3,9 +3,10 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
 import { ContextProvider } from "./context";
-import { BrowserRouter as Router } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { initializeIcons } from "@fluentui/react/lib/Icons";
 import reportWebVitals from "./reportWebVitals";
+import GeneratorToolLayout from "./components/GeneratorTool";
 
 initializeIcons();
 
@@ -13,7 +14,11 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Router>
       <ContextProvider>
-        <App />
+        <Routes>
+          <Route path="/generator" element={<GeneratorToolLayout />} />
+          <Route path="/home" element={<App />} />
+        </Routes>
+        {/* <App /> */}
       </ContextProvider>
     </Router>
   </React.StrictMode>

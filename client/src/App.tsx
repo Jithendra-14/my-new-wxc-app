@@ -7,6 +7,7 @@ import {
   StandardLuminance,
   baseLayerLuminance,
 } from "@fluentui/web-components";
+import GeneratorToolLayout from "./components/GeneratorTool";
 
 const LightThemeIcon: IIconProps = { iconName: "Sunny" };
 const DarkThemeIcon: IIconProps = { iconName: "ClearNight" };
@@ -25,7 +26,45 @@ const App = () => {
   };
   const loadData = async () => {
     try {
-      const response = await fetch("/api/newsletters");
+      const response = await fetch("/api/azure/get-json/data/data.json");
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const d = await response.json();
+      setData(d); // Spread operator triggers observable
+    } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
+      // Handle errors appropriately in your application context
+    }
+  };
+  const postData = async () => {
+    try {
+      const response = await fetch("/api/azure/upload-json/data/data.json", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify([
+          {
+            image: {
+              url: "https://picsum.photos/200",
+              altText: "some alt text",
+            },
+            title: "ABC",
+            majorInititative: "sports",
+            area: "sports v2",
+            redirectUrl: "https://picsum.photos/200",
+          },
+          {
+            image: {
+              url: "https://picsum.photos/200",
+              altText: "some alt text",
+            },
+            title: "ABC",
+            majorInititative: "sports",
+            area: "sports v2",
+            redirectUrl: "https://picsum.photos/200",
+          },
+        ]),
+      });
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
