@@ -1,4 +1,4 @@
-import React,{ useContext } from "react";
+import { useContext } from "react";
 import { ContextHook } from "../types/interfaces";
 import { globalContext } from "./index";
 
