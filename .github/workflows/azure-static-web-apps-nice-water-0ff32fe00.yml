@@ -25,6 +25,12 @@ jobs:
         with:
           node-version: '20'
       
+      - name: Build Application
+        run: npm run build # Adjust this command based on your actual build command
+      
+      - name: List Build Directory Contents
+        run: ls -R ./build # Lists all files in the build directory recursively
+      
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
