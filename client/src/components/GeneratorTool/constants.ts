@@ -126,4 +126,25 @@ export interface INLSegmentLayoutsObject {
   [key: string]: TNLSegmentLayout;
 }
 
-export const API_URL = "http://localhost:5000/api/newsletters";
+export const API_HOST =
+  process.env.NODE_ENV === "development" ? "http://localhost:5000" : "";
+
+export const API_URL = "api/newsletters";
+
+export interface Header {
+  image: {
+    altText: string;
+  };
+  title: string;
+  description: string;
+}
+export interface Footer {
+  image: {
+    altText: string;
+  };
+}
+
+export interface Data {
+  header: Header;
+  footer: Footer;
+}
