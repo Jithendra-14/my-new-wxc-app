@@ -16,7 +16,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <ContextProvider>
         <Routes>
           <Route path="/generator" element={<GeneratorToolLayout />} />
-          <Route path="/home" element={<App />} />
+          <Route path="/" element={<App />} />
         </Routes>
         {/* <App /> */}
       </ContextProvider>
