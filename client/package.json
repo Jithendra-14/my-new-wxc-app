@@ -27,9 +27,6 @@
     "sass": "^1.77.8",
     "ts-loader": "^9.5.1"
   },
-  "engines": {
-    "node": ">=20.0.0"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
