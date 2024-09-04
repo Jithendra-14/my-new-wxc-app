@@ -1,13 +1,13 @@
 const { Router } = require("express");
 const router = Router();
-const { blobServiceClient } = require("../utils/constants");
+const { blobServiceClient, SAS_TOKEN } = require("../utils/constants");
 
 router.get("/get-json/:containerName/:blobName", async (req, res) => {
   const { containerName, blobName } = req.params;
 
   try {
     const containerClient = blobServiceClient.getContainerClient(containerName);
-    const blobClient = containerClient.getBlobClient(blobName);
+    const blobClient = containerClient.getBlobClient(blobName + SAS_TOKEN);
 
     const downloadBlockBlobResponse = await blobClient.download(0);
     const downloaded = await streamToBuffer(

@@ -21,6 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.use(express.static("build"));
 app.use("/api", indexRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/newsletters/content", generatorContentRouter);
@@ -29,5 +30,9 @@ app.use("/api/newsletters/preview", generatorPreviewRouter);
 app.use("/api/newsletters", newslettersRouter);
 app.use("/api/azure", azureRouter);
 app.use("/api/data", dataRouter);
+// This should come after all other routes
+app.use("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 module.exports = app;
