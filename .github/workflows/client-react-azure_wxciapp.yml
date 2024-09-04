@@ -19,28 +19,16 @@ jobs:
       - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
-          node-version: '20.x'
+          node-version: '18.x'
 
-      - name: Install dependencies for client
-        run: npm install
-        working-directory: ./client  # This runs npm install in the client directory
-
-      - name: Run build for client
-        run: npm run build
-        working-directory: ./client
-
-      - name: Install dependencies for server
-        run: npm install
-        working-directory: ./server
-
-      - name: Create build directory in server if it doesn't exist
-        run: mkdir -p ./server/build
-      
-      - name: Copy client build to server folder
-        run: cp -r ./client/build/* ./server/build
+      - name: npm install, build, and test
+        run: |
+          npm install
+          npm run build --if-present
+          npm run test --if-present
 
       - name: Zip artifact for deployment
-        run: zip -r release.zip ./server/*
+        run: zip release.zip ./* -r
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -65,22 +53,13 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
-
-      - name: Move server contents to root directory
-        run: mv server/* ./
-      
-      - name: Remove server directory
-        run: rmdir server
-
-      - name: Remove release.zip
-        run: rm release.zip
       
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_2CB32CF4456545C1B48A96BD797D4E49 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_2650B62AFFC047949A1D642C0EDEF9DD }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_63355E749CF84AD18F6A6F1809DB211B }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_CB035F624D6E49338C3077E0AAD57563 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_FA5F776C15564DB6938092A164A6B642 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_E8BBF04D0A4548BC9E8ABBA5CE91E86F }}
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
