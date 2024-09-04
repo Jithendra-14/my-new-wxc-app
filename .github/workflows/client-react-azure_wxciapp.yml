@@ -70,15 +70,11 @@ jobs:
         run: mv server/* ./
 
       - name: Remove server directory
-        run: |
-          pwd
-          ls
+        run: rm -rf server
 
       - name: Remove release.zip
-        run: |
-          rm -rf /home/runner/work/my-new-wxc-app/my-new-wxc-app/release.zip
-          pwd
-          ls
+        run: rm -rf /home/runner/work/my-new-wxc-app/my-new-wxc-app/release.zip
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
