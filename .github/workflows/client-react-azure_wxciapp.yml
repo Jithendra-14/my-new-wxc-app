@@ -75,8 +75,10 @@ jobs:
           ls
 
       - name: Remove release.zip
-        run: rm release.zip
-
+        run: |
+          rm -rf /home/runner/work/my-new-wxc-app/my-new-wxc-app/release.zip
+          pwd
+          ls
       - name: Login to Azure
         uses: azure/login@v2
         with:
