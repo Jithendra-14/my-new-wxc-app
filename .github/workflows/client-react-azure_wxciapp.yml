@@ -69,8 +69,8 @@ jobs:
       - name: Move server contents to root directory
         run: mv server/* ./
       
-      - name: List contents of server directory
-        run: ls -la server
+      - name: List nested contents of server directory
+        run: ls -laR server
 
       - name: Remove release.zip
         run: rm release.zip
