@@ -65,6 +65,15 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
+
+      - name: Move server contents to root directory
+        run: mv server/* ./
+      
+      - name: Remove server directory
+        run: rmdir server
+
+      - name: Remove release.zip
+        run: rm release.zip
       
       - name: Login to Azure
         uses: azure/login@v2
@@ -73,11 +82,6 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_2650B62AFFC047949A1D642C0EDEF9DD }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_63355E749CF84AD18F6A6F1809DB211B }}
 
-      - name: Clean the existing deployment
-        run: |
-          az webapp delete --name wxciapp --resource-group webapp
-          az webapp create --name wxciapp --resource-group webapp --plan ASP-webapp-93a4 (B1: 1)
-
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
@@ -85,7 +89,4 @@ jobs:
           app-name: 'wxciapp'
           slot-name: 'Production'
           package: .
-
-      - name: Remove release.zip
-        run: rm release.zip
           
