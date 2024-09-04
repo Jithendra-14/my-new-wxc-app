@@ -25,12 +25,9 @@ jobs:
         run: npm install
         working-directory: ./client  # This runs npm install in the client directory
 
-      - name: Run build for client (if needed)
+      - name: Run build for client
         run: npm run build
         working-directory: ./client
-
-      - name: List contents of client build directory (Debugging)
-        run: ls -la ./client/build
 
       - name: Install dependencies for server
         run: npm install
