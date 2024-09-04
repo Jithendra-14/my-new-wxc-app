@@ -65,15 +65,12 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
-      
-      - name: Find server directories
-        run: find / -type d -name "server"
-
-      - name: List nested contents of server directory
-        run: ls -laR server
 
       - name: Move server contents to root directory
         run: mv server/* ./
+
+      - name: List all the files from server folder
+        run: ls server/
       
       - name: Remove server directory
         run: rm -rf server
