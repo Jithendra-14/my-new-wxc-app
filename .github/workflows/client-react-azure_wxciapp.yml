@@ -70,7 +70,9 @@ jobs:
         run: mv server/* ./
 
       - name: Remove server directory
-        run: rmdir server
+        run: |
+          pwd
+          ls
 
       - name: Remove release.zip
         run: rm release.zip
