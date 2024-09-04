@@ -71,7 +71,10 @@ jobs:
 
       - name: Remove server directory
         run: rmdir server
-      
+
+      - name: Remove release.zip
+        run: rm release.zip
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -86,7 +89,3 @@ jobs:
           app-name: 'wxciapp'
           slot-name: 'Production'
           package: .
-
-      - name: Remove release.zip
-        run: rm release.zip
-          
