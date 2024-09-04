@@ -66,6 +66,11 @@ jobs:
       - name: Unzip artifact for deployment
         run: unzip release.zip
       
+      - name: Move server contents to root directory
+        run: |
+          mv server/* ./
+          rmdir server
+
       - name: Remove release.zip
         run: rm release.zip
       
@@ -82,5 +87,5 @@ jobs:
         with:
           app-name: 'wxciapp'
           slot-name: 'Production'
-          package: ./server/*
+          package: .
           
