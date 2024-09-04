@@ -68,12 +68,9 @@ jobs:
 
       - name: Move server contents to root directory
         run: mv server/* ./
-
-      - name: List all the files from server folder
-        run: ls server/
       
       - name: Remove server directory
-        run: rm -rf server
+        run: rmdir server
 
       - name: Remove release.zip
         run: rm release.zip
