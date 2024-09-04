@@ -69,7 +69,7 @@ jobs:
       - name: Move server contents to root directory
         run: |
           mv server/* ./
-          rm -rf server
+          rm -r server/
 
       - name: Remove release.zip
         run: rm release.zip
