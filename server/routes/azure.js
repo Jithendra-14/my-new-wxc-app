@@ -1,18 +1,17 @@
 const { Router } = require("express");
 const router = Router();
-const { blobServiceClient, SAS_TOKEN } = require("../utils/constants");
+const { blobServiceClient } = require("../utils/constants");
+const {
+  CONTAINER_NAME,
+  getJSONFromAzure,
+  uploadJSONToAzure,
+} = require("../utils/helpers");
 
-router.get("/get-json/:containerName/:blobName", async (req, res) => {
-  const { containerName, blobName } = req.params;
+router.get("/get-json/:blobName", async (req, res) => {
+  const { blobName } = req.params;
 
   try {
-    const containerClient = blobServiceClient.getContainerClient(containerName);
-    const blobClient = containerClient.getBlobClient(blobName + SAS_TOKEN);
-
-    const downloadBlockBlobResponse = await blobClient.download(0);
-    const downloaded = await streamToBuffer(
-      downloadBlockBlobResponse.readableStreamBody
-    );
+    const downloaded = await getJSONFromAzure(CONTAINER_NAME, blobName);
 
     res.json(JSON.parse(downloaded.toString()));
   } catch (error) {
@@ -21,17 +20,16 @@ router.get("/get-json/:containerName/:blobName", async (req, res) => {
   }
 });
 
-router.post("/upload-json/:containerName/*", async (req, res) => {
-  const { containerName } = req.params;
+router.post("/upload-json/*", async (req, res) => {
   const jsonData = req.body;
   const blobName = req.params[0];
 
   try {
-    const containerClient = blobServiceClient.getContainerClient(containerName);
-    const blobClient = containerClient.getBlockBlobClient(blobName);
-
-    const jsonString = JSON.stringify(jsonData);
-    await blobClient.upload(jsonString, jsonString.length);
+    const uploaded = await uploadJSONToAzure(
+      CONTAINER_NAME,
+      blobName,
+      jsonData
+    );
 
     res.status(201).send("Blob uploaded successfully");
   } catch (error) {

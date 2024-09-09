@@ -45,15 +45,14 @@ const IMAGE_PADDING = {
 
 const TEXT_FONT_SIZE = "17px;";
 
-// Azure Blob Storage connection string
-const AZURE_STORAGE_CONNECTION_STRING =
-  "DefaultEndpointsProtocol=https;AccountName=az2024htmlpages;AccountKey=0HUnEVqABOeVZR9lUA43eJLratEPszObIhxIZc3XR2g0N+9JLxQ6hFN94/eRn1ZI6z4zbNL+McWe+AStQLusOg==;EndpointSuffix=core.windows.net";
+// Azure Storage Name
+const AZURE_STORAGE_NAME = "az2024htmlpages";
 
 const SAS_TOKEN =
-  "?sp=r&st=2024-09-03T13:08:51Z&se=2024-09-03T21:08:51Z&spr=https&sv=2022-11-02&sr=c&sig=%2FtSMHKTfk9ejqDSkUnPms760Uy7EYY%2FawnAjF2F5Nnk%3D";
+  "?sp=r&st=2024-09-05T05:55:45Z&se=2024-09-30T13:55:45Z&spr=https&sv=2022-11-02&sr=c&sig=KZxeAb7xxjUWfholUTK3Ek0ptrLBMNF3NFaxqvTgWY8%3D";
 
-const blobServiceClient = BlobServiceClient.fromConnectionString(
-  AZURE_STORAGE_CONNECTION_STRING
+const blobServiceClient = new BlobServiceClient(
+  `https://${AZURE_STORAGE_NAME}.blob.core.windows.net${SAS_TOKEN}`
 );
 
 module.exports = {
@@ -69,7 +68,7 @@ module.exports = {
   TEXT_PADDING,
   IMAGE_PADDING,
   TEXT_FONT_SIZE,
-  AZURE_STORAGE_CONNECTION_STRING,
   blobServiceClient,
   SAS_TOKEN,
+  AZURE_STORAGE_NAME,
 };

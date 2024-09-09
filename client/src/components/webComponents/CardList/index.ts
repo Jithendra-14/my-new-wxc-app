@@ -20,6 +20,7 @@ export interface CardDetails {
   majorInitiative?: string;
   area?: string;
   redirectUrl?: string;
+  id?: number;
 }
 
 @customElement({
@@ -29,8 +30,14 @@ export interface CardDetails {
 })
 export class _AppCardList extends FASTElement {
   @observable public cardsList: CardDetails[] = [];
+  @observable public activeTileId: number = 1;
 
   connectedCallback(): void {
     super.connectedCallback();
   }
+
+  public handleParentClick = (idProp: number) => {
+    console.log(idProp, this.activeTileId);
+    this.activeTileId = idProp;
+  };
 }

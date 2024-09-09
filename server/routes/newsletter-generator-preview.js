@@ -84,7 +84,7 @@ api.get("/html", async (req, res) => {
     if (JSONResp.header) {
       const { image, title, description } = JSONResp.header;
       const headerImgHTML = generator(
-        banner(SECTIONS.HEADER, image.url + SAS_TOKEN, image.altText)
+        banner(SECTIONS.HEADER, image.url + "?" + SAS_TOKEN, image.altText)
       );
       const headerTextHTML = generator(
         banner_text(SECTIONS.HEADER, title, description)
@@ -99,7 +99,7 @@ api.get("/html", async (req, res) => {
     if (JSONResp.footer) {
       const { image } = JSONResp.footer;
       const footerImgHTML = generator(
-        banner(SECTIONS.FOOTER, image.url + SAS_TOKEN, image.altText)
+        banner(SECTIONS.FOOTER, image.url + "?" + SAS_TOKEN, image.altText)
       );
       htmlFile = htmlFile.replace("{footer}", footerImgHTML);
     }

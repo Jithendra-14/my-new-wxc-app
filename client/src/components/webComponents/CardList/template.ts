@@ -2,26 +2,22 @@ import { html, repeat } from "@microsoft/fast-element";
 import { _AppCardList, CardDetails } from "./index";
 
 export const cardTemplate = html<CardDetails>`
-  <a href="${(x) => x.redirectUrl}" target="_blank" class="card-container-link">
-    <article class="card-container">
-      <div class="card-image">
-        <img src="${(x) => x.image?.url}" alt="${(x) => x.image?.altText}" />
-      </div>
-      <div class="card-body">
-        <h4 class="card-title">${(x) => x.title}</h4>
-        <div class="card-content">
-          <span>
-            <strong>Major Initiative</strong> : ${(x) => x.majorInitiative}
-          </span>
-          <span> <strong>Area</strong> : ${(x) => x.area} </span>
-        </div>
-      </div>
-    </article>
-  </a>
+  <card-tile
+    :image=${(x) => x.image}
+    :titleProp=${(x) => x.title}
+    :majorInitiative=${(x) => x.majorInitiative}
+    :area=${(x) => x.area}
+    :redirectUrl=${(x) => x.redirectUrl}
+    :idProp=${(x) => x.id}
+    :isActive=${(x, c) => c.parent.activeTileId === x.id}
+    :handleParentClick=${(x, c) => c.parent.handleParentClick}
+  >
+  </card-tile>
 `;
 
 export const htmlTemplate = html<_AppCardList>`
   <section class="card-list-container">
+    <edge-ob-container></edge-ob-container>
     ${repeat((x) => x?.cardsList, cardTemplate)}
   </section>
 `;

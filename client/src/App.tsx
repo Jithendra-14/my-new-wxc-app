@@ -25,7 +25,7 @@ const App = () => {
   };
   const loadData = async () => {
     try {
-      const response = await fetch("/api/azure/get-json/data/data.json");
+      const response = await fetch("/api/azure/get-json/data.json");
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
