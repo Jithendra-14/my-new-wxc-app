@@ -35,9 +35,4 @@ export class _AppCardList extends FASTElement {
   connectedCallback(): void {
     super.connectedCallback();
   }
-
-  public handleParentClick = (idProp: number) => {
-    console.log(idProp, this.activeTileId);
-    this.activeTileId = idProp;
-  };
 }

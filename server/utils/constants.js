@@ -1,5 +1,3 @@
-const { BlobServiceClient } = require("@azure/storage-blob");
-
 const layoutType = {
   imageBanner: "IMAGE_BANNER",
   logoImage: "LOGO_IMAGE",
@@ -45,16 +43,6 @@ const IMAGE_PADDING = {
 
 const TEXT_FONT_SIZE = "17px;";
 
-// Azure Storage Name
-const AZURE_STORAGE_NAME = "az2024htmlpages";
-
-const SAS_TOKEN =
-  "?sp=r&st=2024-09-05T05:55:45Z&se=2024-09-30T13:55:45Z&spr=https&sv=2022-11-02&sr=c&sig=KZxeAb7xxjUWfholUTK3Ek0ptrLBMNF3NFaxqvTgWY8%3D";
-
-const blobServiceClient = new BlobServiceClient(
-  `https://${AZURE_STORAGE_NAME}.blob.core.windows.net${SAS_TOKEN}`
-);
-
 module.exports = {
   layoutType,
   SECTIONS,
@@ -68,7 +56,4 @@ module.exports = {
   TEXT_PADDING,
   IMAGE_PADDING,
   TEXT_FONT_SIZE,
-  blobServiceClient,
-  SAS_TOKEN,
-  AZURE_STORAGE_NAME,
 };

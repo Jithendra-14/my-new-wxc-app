@@ -17,7 +17,6 @@ export const htmlTemplate = html<CardTile>`
         <span> <strong>Area</strong> : ${(x) => x.area} </span>
       </div>
     </div>
-    <button class="card-button" @click=${(x) => x.handleClick()}>Submit</button>
   </article>
   <!-- </a> -->
 `;

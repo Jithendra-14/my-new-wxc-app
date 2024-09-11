@@ -10,7 +10,6 @@ export const cardTemplate = html<CardDetails>`
     :redirectUrl=${(x) => x.redirectUrl}
     :idProp=${(x) => x.id}
     :isActive=${(x, c) => c.parent.activeTileId === x.id}
-    :handleParentClick=${(x, c) => c.parent.handleParentClick}
   >
   </card-tile>
 `;

@@ -27,13 +27,8 @@ export class CardTile extends FASTElement {
   @observable public redirectUrl?: string;
   @observable public idProp?: number;
   @observable public isActive?: boolean;
-  @observable public handleParentClick = (idProp: number | undefined) => {};
 
   connectedCallback(): void {
     super.connectedCallback();
   }
-
-  public handleClick = () => {
-    this.handleParentClick(this.idProp);
-  };
 }

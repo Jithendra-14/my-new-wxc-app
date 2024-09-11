@@ -1,10 +1,10 @@
 const { Router } = require("express");
 const router = Router();
-const { blobServiceClient } = require("../utils/constants");
 const {
   CONTAINER_NAME,
   getJSONFromAzure,
   uploadJSONToAzure,
+  generateSASToken,
 } = require("../utils/helpers");
 
 router.get("/get-json/:blobName", async (req, res) => {
@@ -35,6 +35,15 @@ router.post("/upload-json/*", async (req, res) => {
   } catch (error) {
     console.error("Error uploading blob:", error.message);
     res.status(500).send("Error uploading blob");
+  }
+});
+
+router.get("/getSAS", (requ, res) => {
+  try {
+    const getSASToken = generateSASToken();
+    res.status(200).send({ token: getSASToken });
+  } catch {
+    res.status(500).send("Unable to generate the SAS Token");
   }
 });
 

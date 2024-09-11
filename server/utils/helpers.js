@@ -12,8 +12,17 @@ const {
   writeFileSync,
   createReadStream,
 } = require("fs");
-const { SECTIONS, blobServiceClient } = require("./constants.js");
+const { SECTIONS } = require("./constants.js");
+const {
+  BlobServiceClient,
+  StorageSharedKeyCredential,
+  ContainerSASPermissions,
+  generateBlobSASQueryParameters,
+} = require("@azure/storage-blob");
 const path = require("path");
+require("dotenv").config(); // Load environment variables
+const storageName = process.env.AZURE_STORAGE_NAME;
+const storageKey = process.env.AZURE_STORAGE_KEY;
 
 // path: "public/web/de/newsletter", // public folder location
 const actual_root_path = "public";
@@ -368,6 +377,33 @@ const removeNestedFolders = (dirPath) => {
   }
 };
 
+const generateSASToken = (containerName = CONTAINER_NAME) => {
+  const sharedKeyCredential = new StorageSharedKeyCredential(
+    storageName,
+    storageKey
+  );
+
+  const sasOptions = {
+    containerName: containerName, // Container where the blob is stored
+    expiresOn: new Date(new Date().valueOf() + 3600 * 1000), // Expiration time, e.g., 1 hour
+    permissions: ContainerSASPermissions.parse("rwl"), // Permissions, e.g., "r" for read, "w" for write, "l" for list
+  };
+
+  // Generate the SAS token parameters
+  const sasToken = generateBlobSASQueryParameters(
+    sasOptions,
+    sharedKeyCredential
+  ).toString();
+
+  return sasToken;
+};
+
+const SAS_TOKEN = generateSASToken();
+
+const blobServiceClient = new BlobServiceClient(
+  `https://${storageName}.blob.core.windows.net?${SAS_TOKEN}`
+);
+
 const uploadFileToBlob = async (directoryPath, file) => {
   return new Promise((resolve, reject) => {
     const blobName = getBlobName(file.originalname);
@@ -488,6 +524,7 @@ module.exports = {
   createSectionsHTMLFile,
   combineFilesToIndexHTMLFile,
   copyFolderToPublicFolder,
+  generateSASToken,
   uploadFileToBlob,
   CONTAINER_NAME,
   NEWSLETTERS_FOLDER,
