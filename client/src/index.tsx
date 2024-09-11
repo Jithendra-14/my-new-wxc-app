@@ -1,15 +1,26 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./index.css";
+import { ContextProvider } from "./context";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { initializeIcons } from "@fluentui/react/lib/Icons";
+import reportWebVitals from "./reportWebVitals";
+import GeneratorToolLayout from "./components/GeneratorTool";
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-root.render(
+initializeIcons();
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <App />
+    <Router>
+      <ContextProvider>
+        <Routes>
+          <Route path="/generator" element={<GeneratorToolLayout />} />
+          <Route path="/" element={<App />} />
+        </Routes>
+        {/* <App /> */}
+      </ContextProvider>
+    </Router>
   </React.StrictMode>
 );
 
