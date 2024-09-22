@@ -1,0 +1,83 @@
+{
+  "mainContainerCardsData": {
+    "cards": [
+      {
+        "cardTitle": "Delightful experience",
+        "cardSubText": "Building NextGen experiences, with micro animating interactions​",
+        "imgSrc": "/api/img/focus-1.png",
+        "imgAltTxt": "Delightful Icon"
+      },
+      {
+        "cardTitle": "Plug & play components",
+        "cardSubText": "Creating UI components that can be used on multiple platforms",
+        "imgSrc": "/api/img/focus-2.png",
+        "imgAltTxt": "Plug & play components"
+      },
+      {
+        "cardTitle": "Accessibility Champs",
+        "cardSubText": "Our mission is to create products that are accessible for all",
+        "imgSrc": "/api/img/focus-3.png",
+        "imgAltTxt": "Accessibility"
+      },
+      {
+        "cardTitle": "Driving product development",
+        "cardSubText": "​Breaking the framework barriers across Bing segments",
+        "imgSrc": "/api/img/focus-4.png",
+        "imgAltTxt": "Driving product development"
+      }
+    ]
+  },
+
+  "maincontainerTeamDetails": {
+    "Details": [
+      {
+        "name": "Amit",
+        "role": "Principal UX Director",
+        "photoUrl": "/api/img/amit.png",
+        "profileUrl": "https://www.bing.com/search?q=amit+dangwal"
+      },
+      {
+        "name": "Suri Reddy",
+        "role": "Principal DE Manager",
+        "photoUrl": "/api/img/suri.png",
+        "profileUrl": "https://www.bing.com/search?q=suri+reddy+pyla"
+      },
+      {
+        "name": "Chandra",
+        "role": "Design Engineer 2",
+        "photoUrl": "/api/img/chandra.png",
+        "profileUrl": "https://www.bing.com/search?q=Chandra+Sekhar+Reddy+Karri"
+      },
+      {
+        "name": "Srishti",
+        "role": "Design Engineer 2",
+        "photoUrl": "/api/img/srishti.png",
+        "profileUrl": "https://www.bing.com/search?q=Srishti%20Srivastava"
+      },
+      {
+        "name": "Kiran",
+        "role": "Design Engineer 2",
+        "photoUrl": "/api/img/kiran.png",
+        "profileUrl": "https://www.bing.com/search?q=Kiran%20Nadendla"
+      },
+      {
+        "name": "Ajay",
+        "role": "Design Engineer 2",
+        "photoUrl": "/api/img/ajay.png",
+        "profileUrl": "https://www.bing.com/search?q=Ajay%20Agarwal"
+      },
+      {
+        "name": "Mokshith",
+        "role": "Design Engineer",
+        "photoUrl": "/api/img/mokshit.png",
+        "profileUrl": "https://www.bing.com/search?q=Mokshithnath+Reddy+Pyla"
+      },
+      {
+        "name": "Anjani",
+        "role": "Design Engineer",
+        "photoUrl": "/api/img/anjani.jpg",
+        "profileUrl": "https://www.bing.com/search?q=Anjani%20Mudunuru"
+      }
+    ]
+  }
+}

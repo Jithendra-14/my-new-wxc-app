@@ -1,44 +1,45 @@
 {
-  "name": "client",
+  "name": "hello",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "dependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@craco/craco": "^7.1.0",
-    "@fluentui/react": "^8.117.8",
+    "@fluentui/react": "^8.103.5",
     "@fluentui/web-components": "^2.6.1",
     "@microsoft/fast-components": "^2.30.6",
     "@microsoft/fast-element": "^1.13.0",
     "@microsoft/fast-foundation": "^2.49.6",
     "@microsoft/fast-react-wrapper": "^0.3.24",
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
-    "@types/node": "^16.18.98",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
-    "path": "^0.12.7",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^6.25.1",
-    "react-scripts": "5.0.1",
-    "sass": "^1.77.8",
-    "ts-loader": "^9.5.1",
-    "web-vitals": "^2.1.4"
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@types/react-router-dom": "^5.3.3",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "multer": "^1.4.5-lts.1",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "react-router-dom": "^6.4.4",
+    "react-scripts": "^5.0.1",
+    "sass": "^1.57.1",
+    "ts-config": "^20.10.0",
+    "typescript": "^4.9.3"
   },
   "scripts": {
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
+    "server": "node src/api/index.js",
+    "playwright_test": "playwright test",
     "eject": "react-scripts eject"
   },
+  "config": {
+    "react-scripts": {
+      "minify": true
+    }
+  },
   "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "extends": "react-app"
   },
   "browserslist": {
     "production": [
@@ -51,6 +52,16 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.22.2",
+    "@types/cors": "^2.8.17",
+    "@types/jquery": "^3.5.16",
+    "@types/multer": "^1.4.11",
+    "@types/react": "^18.0.26",
+    "@types/react-dom": "^18.0.9",
+    "@craco/craco": "^7.1.0",
+    "ts-loader": "^9.5.1"
   },
   "proxy": "http://localhost:5000"
 }

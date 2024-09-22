@@ -1,0 +1,221 @@
+html {
+  -ms-touch-action: none;
+  touch-action: none;
+  background: #ddd;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  text-space-collapse: collapse;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  color: #666;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+div {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+a {
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+  text-decoration: none;
+  display: block;
+  text-transform: capitalize;
+}
+
+.tab {
+  overflow: hidden;
+}
+
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 28px 16px;
+  transition: 0.3s;
+  font-size: 20px;
+  color: #212121;
+}
+
+.tab button:hover {
+  background-color: #a19f9d;
+}
+
+.tab button.active {
+  cursor: default;
+  background-color: #fff;
+}
+
+.tab button.active:hover {
+  background-color: #fff;
+  cursor: default;
+}
+
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border-top: none;
+}
+.tab-hide {
+  display: none;
+}
+.tab-show {
+  display: block;
+}
+
+table {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  table-layout: fixed;
+}
+
+table tr {
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+table th,
+table td {
+  padding: 10px;
+  text-align: left;
+  vertical-align: top;
+  text-transform: capitalize;
+}
+
+.mainContent {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  background: #f5f5f5;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  visibility: hidden;
+}
+
+header.section {
+  position: fixed;
+  z-index: 1;
+  height: 80px;
+  top: 0;
+  background-color: #fff;
+  width: 100%;
+  white-space: nowrap;
+  overflow: visible;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  box-shadow: 0 0 1px grey;
+}
+
+.sectionContent {
+  display: inline-block;
+  height: 100%;
+  vertical-align: top;
+  white-space: normal;
+}
+
+.sectionContent span {
+  color: #fff;
+  line-height: 85px;
+}
+.svglogo {
+  width: 137px;
+  height: 22px;
+  margin-left: 40px;
+}
+.logo {
+  /* width: 21px;
+  height: 80px;
+  background: url("../img/bingheaderlogo.png") center center no-repeat;
+  margin: 0 12px 0 32px;
+  display: inline-block; */
+}
+
+.mainpage {
+  position: relative;
+}
+
+.section-container {
+  background: #f5f5f5;
+  min-height: calc(100vh - 98px);
+}
+
+.getstart {
+  height: 100%;
+  margin-top: 80px;
+  background: #fff;
+}
+
+.getstart-info {
+  padding: 20px 40px;
+  font-size: 20px;
+  line-height: 1.5;
+}
+
+.nlinfo {
+  height: calc(100vh - 80px);
+}
+
+.nl_list img {
+  width: 300px;
+}
+
+@media screen and (max-width: 600px) {
+  .getstart-info {
+    padding: 20px 10px;
+  }
+  table {
+    border: 0;
+    font-size: 16px;
+  }
+  table thead {
+    display: none;
+  }
+  table tr {
+    display: block;
+    margin-bottom: 10px;
+  }
+  table td {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    text-align: right;
+  }
+  table td:before {
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+  }
+  table td:last-child {
+    border-bottom: 0;
+  }
+}

@@ -19,9 +19,7 @@ const InitialState: INewsLetterState = {
     image: null,
     altText: "",
   },
-  segments: {
-    abc: { header: { image: null, altText: "" }, layouts: {} },
-  },
+  segments: {},
   previewSection: NEWS_LETTER_PREVIEW_STAGE.name,
 };
 

@@ -1,0 +1,37 @@
+{
+  "DE": [
+    {
+      "group": "DE",
+      "initiative": "Newsletter",
+      "area": "Design Engineering",
+      "linkLabel": "August '21",
+      "link": "web/de/newsletter/denlaug21/",
+      "description": "",
+      "image": "/api/img/newsletter/denlaug21.png",
+      "imageCover": "../../../icons/images/v2-img.png",
+      "category": "DE"
+    },
+    {
+      "group": "DE",
+      "initiative": "Newsletter",
+      "area": "Design Engineering",
+      "linkLabel": "November '23",
+      "link": "web/de/newsletter/Monthly/Nov23",
+      "description": "yoooo",
+      "image": "/api/web/de/newsletter/Monthly/Nov23/tmp/images/NovHeader.png",
+      "imageCover": "../../../icons/images/v2-img.png",
+      "category": "DE"
+    },
+    {
+      "group": "DE",
+      "initiative": "Newsletter",
+      "area": "Design Engineering",
+      "linkLabel": "Apr '24",
+      "link": "web/de/Newsletter/Monthly/Apr2024",
+      "description": "Design Engineering newsletter for the month of April 2024",
+      "image": "/api/web/de/newsletter/Monthly/Apr2024/tmp/images/cover.png",
+      "imageCover": "../../../icons/images/v2-img.png",
+      "category": "DE"
+    }
+  ]
+}

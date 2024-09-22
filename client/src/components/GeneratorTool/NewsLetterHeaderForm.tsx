@@ -1,7 +1,5 @@
-import React, { FormEvent, useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import {
-  API_URL,
-  Data,
   NEWS_LETTER_ACTION_TYPES,
   NEWS_LETTER_FORM_SECTION_STAGES,
   NEWS_LETTER_PREVIEW_STAGE,
@@ -10,49 +8,21 @@ import useContextHook from "./context/useContextHook";
 import ImageFieldRenderer from "./ImageFieldRenderer";
 import { convertHeaderJsonToFormData, submitNewsLetterBanner } from "./utils";
 import { PrimaryButton, Stack, Text, TextField } from "@fluentui/react";
-import useFetch from "./context/useFetch";
 
 const NewsLetterHeaderForm: React.FC = () => {
   const { state, dispatch } = useContextHook();
-  const { data } = useFetch(
-    `${API_URL}/preview/json?type=${state.type}&name=${state.name}&stage=${state.previewSection}`
-  );
-
-  const handleSetStateFromApi = useCallback(
-    (data: Data | null) => {
-      dispatch({
-        type: NEWS_LETTER_ACTION_TYPES.UPDATE_NEWS_LETTER_HEADER_CONTENT,
-        payload: {
-          altText: data?.header?.image?.altText || "",
-          title: data?.header?.title || "",
-          description: data?.header?.description || "",
-        },
-      });
-    },
-    [dispatch]
-  );
-
-  useEffect(() => {
-    if (data) {
-      handleSetStateFromApi(data);
-    }
-  }, [data, handleSetStateFromApi]);
 
   const handleChange = useCallback(
-    (
-      e: FormEvent<HTMLInputElement | HTMLTextAreaElement>,
-      newValue?: string | undefined
-    ) => {
-      const { type, name, files } = e.target as HTMLInputElement;
-      if (type === "file") {
+    (e, newValue: string) => {
+      if (e.target.type === "file") {
         dispatch({
           type: NEWS_LETTER_ACTION_TYPES.SET_NEWS_LETTER_HEADER_IMAGE,
-          payload: { image: files },
+          payload: { image: (e.target as HTMLInputElement).files },
         });
       } else {
         dispatch({
           type: NEWS_LETTER_ACTION_TYPES.UPDATE_NEWS_LETTER_HEADER_CONTENT,
-          payload: { [name]: newValue },
+          payload: { [e.target.name]: newValue },
         });
       }
     },

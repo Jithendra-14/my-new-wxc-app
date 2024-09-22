@@ -21,20 +21,14 @@ const NewsLetterNameForm: React.FC = () => {
   const { state, dispatch } = useContextHook();
 
   const handleChange = useCallback(
-    (
-      e: FormEvent<HTMLDivElement>,
-      item: IDropdownOption | undefined,
-      index?: number
-    ) => {
-      if (item) {
-        dispatch({
-          type: NEWS_LETTER_ACTION_TYPES.SET_NEWS_LETTER_NAME_AND_TYPE,
-          payload: {
-            name: state.name,
-            type: item.key,
-          },
-        });
-      }
+    (e: FormEvent<HTMLDivElement>, item: IDropdownOption) => {
+      dispatch({
+        type: NEWS_LETTER_ACTION_TYPES.SET_NEWS_LETTER_NAME_AND_TYPE,
+        payload: {
+          name: state.name,
+          type: item.key,
+        },
+      });
     },
     [dispatch, state.name]
   );
@@ -42,7 +36,7 @@ const NewsLetterNameForm: React.FC = () => {
   const handleInputChange = useCallback(
     (
       e: FormEvent<HTMLInputElement | HTMLTextAreaElement>,
-      newValue?: string | undefined
+      newValue: string
     ) => {
       dispatch({
         type: NEWS_LETTER_ACTION_TYPES.SET_NEWS_LETTER_NAME_AND_TYPE,

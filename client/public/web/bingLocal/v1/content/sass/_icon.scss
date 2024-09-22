@@ -1,0 +1,17 @@
+@import 'variables';
+
+@font-face {
+    font-family: 'FullMDL2Symbol';
+    src: url('../font/FullMDL2.woff') format('woff'), url('../font/FullMDL2.ttf') format('truetype');
+}
+
+.icon {
+    display: inline-block;
+    font-family: 'FullMDL2Symbol';
+    font-size: 16px;
+    &.disabled {
+        @include bt-opacity(60);
+    }
+}
+
+

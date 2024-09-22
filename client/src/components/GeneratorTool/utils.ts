@@ -56,9 +56,7 @@ export const convertHeaderJsonToFormData = (
   fd.append("header_title", data.title);
   fd.append("header_description", data.description);
   fd.append("header_imageName", data.altText);
-  if (data.image && data.image.length > 0) {
-    fd.append("header_image", data.image[0]);
-  }
+  fd.append("header_image", data.image[0]);
 
   return fd;
 };
@@ -71,9 +69,7 @@ export const convertFooterJSONToFormData = (
   //append images at last of form data to access other data inside callbacks in server.
   fd.append("folderName", folderName);
   fd.append("footer_imageName", data.altText);
-  if (data.image && data.image.length > 0) {
-    fd.append("footer_image", data.image[0]);
-  }
+  fd.append("footer_image", data.image[0]);
 
   return fd;
 };
@@ -84,7 +80,7 @@ export const convertSegementJSONToFormData = (
 ) => {
   const formData = Object.values(segmentsData).map((obj, sgmIdx) => {
     const sfData = new FormData();
-    const layouts = Object.values(obj.layouts) as TNLSegmentLayout[];
+    const layouts = Object.values(obj.layouts);
     sfData.append("folderName", folderName);
     sfData.append("header_imageName", obj.header.altText);
     layouts.forEach((layout: TNLSegmentLayout, layoutIdx) => {
@@ -107,18 +103,14 @@ export const convertSegementJSONToFormData = (
     // append a param segments to identify segment last call or not
     sfData.append("isFirst", sgmIdx === 0 ? "true" : "false");
     //append images at last of form data to access other data inside callbacks in server.
-    if (obj.header && obj.header.image && obj.header.image.length > 0) {
-      sfData.append("header_image", obj.header.image[0]);
-    }
+    sfData.append("header_image", obj.header.image[0]);
     if (layouts.length > 0) {
       layouts.forEach((layout: TNLSegmentLayout, layoutIdx) => {
         Object.values(layout.pics).forEach((pic, picsIdx) => {
-          if (pic.image && pic.image.length > 0) {
-            sfData.append(
-              `segment_layout_[${layoutIdx}]_images_[${picsIdx}]_image`,
-              pic?.image && pic?.image[0]
-            );
-          }
+          sfData.append(
+            `segment_layout_[${layoutIdx}]_images_[${picsIdx}]_image`,
+            pic?.image && pic?.image[0]
+          );
         });
       });
     }

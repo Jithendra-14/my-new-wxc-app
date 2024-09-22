@@ -19,7 +19,7 @@ import { DefaultButton, PrimaryButton, Stack, Text } from "@fluentui/react";
 const NewsLetterDomainForm: React.FC = () => {
   const { state, dispatch } = useContextHook();
 
-  const handleBack = (e: any) => {
+  const handleBack = (e) => {
     dispatch({
       type: NEWS_LETTER_ACTION_TYPES.SET_NEWS_LETTER_FORM_ACTIVE_SECTION,
       payload: NEWS_LETTER_FORM_SECTION_STAGES.HEADER_SECTION,
@@ -30,14 +30,14 @@ const NewsLetterDomainForm: React.FC = () => {
     });
   };
 
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formData: FormData[] = convertSegementJSONToFormData(
       state.segments,
       `${state.type}/${state.name}`
     );
     while (formData.length) {
-      await submitNewsLetterBanner(formData.shift() as FormData, "segment");
+      await submitNewsLetterBanner(formData.shift(), "segment");
     }
     dispatch({
       type: NEWS_LETTER_ACTION_TYPES.SET_NEWS_LETTER_FORM_ACTIVE_SECTION,
@@ -61,12 +61,10 @@ const NewsLetterDomainForm: React.FC = () => {
   );
 
   const handleAddLayout = useCallback(
-    (e: any, id: string | any) => {
+    (e, id: string) => {
       const segmentsData = { ...state.segments };
-      const currentSegmentData: TNLSegementForm = {
-        ...segmentsData[id],
-      };
-      currentSegmentData.layouts[Date.now().toString()] = createLayoutObject();
+      const currentSegmentData = { ...segmentsData[id] };
+      currentSegmentData.layouts[Date.now()] = createLayoutObject();
       segmentsData[id] = currentSegmentData;
       dispatch({
         type: NEWS_LETTER_ACTION_TYPES.UPDATE_SEGMENT_DATA,
@@ -112,12 +110,7 @@ const NewsLetterDomainForm: React.FC = () => {
               <Text variant="large">Segment {idx + 1}</Text>
               <Text variant="mediumPlus">Segment Header</Text>
               <ImageFieldRenderer
-                handleChange={(
-                  e: React.ChangeEvent<
-                    HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-                  >,
-                  newValue: string
-                ) => {
+                handleChange={(e, newValue: string) => {
                   handleChange(e, newValue, id);
                 }}
                 id={`section_${idx + 1}`}
