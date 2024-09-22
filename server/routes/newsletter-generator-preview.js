@@ -10,9 +10,10 @@ const {
   CONTAINER_NAME,
   NEWSLETTERS_FOLDER,
   delay,
+  currentSASToken,
 } = require("../utils/helpers.js");
 const { generator } = require("../utils/generator.js");
-const { SECTIONS, SAS_TOKEN } = require("../utils/constants.js");
+const { SECTIONS } = require("../utils/constants.js");
 const { banner, banner_text } = require("../utils/index.js");
 
 const api = Router();
@@ -84,7 +85,11 @@ api.get("/html", async (req, res) => {
     if (JSONResp.header) {
       const { image, title, description } = JSONResp.header;
       const headerImgHTML = generator(
-        banner(SECTIONS.HEADER, image.url + "?" + SAS_TOKEN, image.altText)
+        banner(
+          SECTIONS.HEADER,
+          image.url + "?" + currentSASToken.token,
+          image.altText
+        )
       );
       const headerTextHTML = generator(
         banner_text(SECTIONS.HEADER, title, description)
@@ -99,7 +104,11 @@ api.get("/html", async (req, res) => {
     if (JSONResp.footer) {
       const { image } = JSONResp.footer;
       const footerImgHTML = generator(
-        banner(SECTIONS.FOOTER, image.url + "?" + SAS_TOKEN, image.altText)
+        banner(
+          SECTIONS.FOOTER,
+          image.url + "?" + currentSASToken.token,
+          image.altText
+        )
       );
       htmlFile = htmlFile.replace("{footer}", footerImgHTML);
     }

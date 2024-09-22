@@ -385,7 +385,7 @@ const generateSASToken = (containerName = CONTAINER_NAME) => {
 
   const sasOptions = {
     containerName: containerName, // Container where the blob is stored
-    expiresOn: new Date(new Date().valueOf() + 3600 * 1000), // Expiration time, e.g., 1 hour
+    expiresOn: new Date(new Date().valueOf() + 24 * 60 * 60 * 1000), // Expiration time set to 24 hours
     permissions: ContainerSASPermissions.parse("rwl"), // Permissions, e.g., "r" for read, "w" for write, "l" for list
   };
 
@@ -395,13 +395,35 @@ const generateSASToken = (containerName = CONTAINER_NAME) => {
     sharedKeyCredential
   ).toString();
 
-  return sasToken;
+  return {
+    token: sasToken,
+    expiration: sasOptions.expiresOn, // Return expiration time for later checking
+  };
+};
+let currentSASToken = generateSASToken(); // Initial SAS token generation
+
+// Function to continuously refresh the SAS token before it expires
+const refreshSASToken = (containerName = CONTAINER_NAME) => {
+  const checkInterval = 30 * 60 * 1000; // Check every 30 minutes
+
+  setInterval(() => {
+    const now = new Date();
+    const timeLeft = currentSASToken.expiration - now;
+
+    // If the token is about to expire within the next 30 minutes, regenerate it
+    if (timeLeft <= 30 * 60 * 1000) {
+      console.log("SAS Token is about to expire. Regenerating a new one...");
+      currentSASToken = generateSASToken(containerName);
+      console.log("New SAS Token generated:", currentSASToken.token);
+    }
+  }, checkInterval);
 };
 
-const SAS_TOKEN = generateSASToken();
+// Start refreshing the SAS token continuously
+refreshSASToken();
 
 const blobServiceClient = new BlobServiceClient(
-  `https://${storageName}.blob.core.windows.net?${SAS_TOKEN}`
+  `https://${storageName}.blob.core.windows.net?${currentSASToken.token}`
 );
 
 const uploadFileToBlob = async (directoryPath, file) => {
@@ -535,5 +557,5 @@ module.exports = {
   createFooterJSON,
   createSegmentJSON,
   delay,
-  SAS_TOKEN,
+  currentSASToken,
 };
