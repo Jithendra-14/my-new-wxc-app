@@ -441,8 +441,8 @@ const getBlobName = (originalName) => {
   return `${identifier}-${originalName}`;
 };
 
-// Get JSON from Azure
-const getJSONFromAzure = async (containerName = CONTAINER_NAME, blobName) => {
+// Get Blob from Azure
+const getBlobFromAzure = async (containerName = CONTAINER_NAME, blobName) => {
   const containerClient = blobServiceClient.getContainerClient(containerName);
   const blobClient = containerClient.getBlobClient(blobName);
 
@@ -528,11 +528,12 @@ module.exports = {
   uploadFileToBlob,
   CONTAINER_NAME,
   NEWSLETTERS_FOLDER,
-  getJSONFromAzure,
+  getBlobFromAzure,
   uploadJSONToAzure,
   uploadFileToAzure,
   createHeaderJSON,
   createFooterJSON,
   createSegmentJSON,
   delay,
+  SAS_TOKEN,
 };
