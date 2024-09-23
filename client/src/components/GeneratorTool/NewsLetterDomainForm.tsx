@@ -1,4 +1,4 @@
-import React, { ChangeEvent, MouseEvent, useCallback } from "react";
+import React, { ChangeEvent, MouseEvent, useCallback, useEffect } from "react";
 import useContextHook from "./context/useContextHook";
 import {
   createLayoutObject,
@@ -7,17 +7,86 @@ import {
   submitNewsLetterBanner,
 } from "./utils";
 import {
+  API_URL,
+  Data,
   NEWS_LETTER_ACTION_TYPES,
   NEWS_LETTER_FORM_SECTION_STAGES,
   NEWS_LETTER_PREVIEW_STAGE,
+  Segment,
   TNLSegementForm,
 } from "./constants";
 import ImageFieldRenderer from "./ImageFieldRenderer";
 import NewsLetterSegmentLayoutForm from "./NewsLetterSegmentLayoutForm";
 import { DefaultButton, PrimaryButton, Stack, Text } from "@fluentui/react";
+import useFetch from "./context/useFetch";
 
 const NewsLetterDomainForm: React.FC = () => {
   const { state, dispatch } = useContextHook();
+  const { data } = useFetch(
+    `${API_URL}/preview/json?type=${state.type}&name=${state.name}&stage=${state.previewSection}`
+  );
+
+  const handleAddSegmentDataFromApi = useCallback(
+    (segmentData: Segment, id: number) => {
+      const { header, layouts } = segmentData;
+
+      const updatedLayouts = layouts.map((layoutData) => {
+        const { header, description, type, images, url } = layoutData;
+        const updatedPics = images.map(({ name }) => ({
+          image: null,
+          altText: name,
+        }));
+
+        const updatedLayoutData = {
+          type,
+          header,
+          description,
+          pics: updatedPics,
+          url,
+        };
+
+        return updatedLayoutData;
+      });
+
+      return {
+        [id]: {
+          id: id,
+          header: {
+            image: null,
+            altText: header.image.name,
+          },
+          layouts: updatedLayouts,
+        },
+      };
+    },
+    []
+  );
+
+  const handleSetStateFromApi = useCallback(
+    (data: Data | null) => {
+      const { segments } = data;
+      if (segments && segments.length > 0) {
+        const segmentJSONs = segments.reduce((acc, segmentData, idx) => {
+          return {
+            ...acc,
+            ...handleAddSegmentDataFromApi(segmentData, idx + 1),
+          };
+        }, {});
+
+        dispatch({
+          type: NEWS_LETTER_ACTION_TYPES.UPDATE_SEGMENT_DATA,
+          payload: segmentJSONs,
+        });
+      }
+    },
+    [handleAddSegmentDataFromApi, dispatch]
+  );
+
+  useEffect(() => {
+    if (data) {
+      handleSetStateFromApi(data);
+    }
+  }, [data, handleSetStateFromApi]);
 
   const handleBack = (e) => {
     dispatch({
@@ -115,7 +184,7 @@ const NewsLetterDomainForm: React.FC = () => {
                 }}
                 id={`section_${idx + 1}`}
                 title={`Section ${idx + 1}`}
-                textValue={obj.header.altText}
+                textValue={obj?.header?.altText}
                 horizontal={true}
               />
               {Object.keys(obj.layouts)?.map((layoutId) => {

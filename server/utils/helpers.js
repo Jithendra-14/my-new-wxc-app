@@ -11,31 +11,27 @@ const {
   unlinkSync,
   writeFileSync,
   createReadStream,
+  readFile,
 } = require("fs");
 const { SECTIONS } = require("./constants.js");
-const {
-  BlobServiceClient,
-  StorageSharedKeyCredential,
-  ContainerSASPermissions,
-  generateBlobSASQueryParameters,
-} = require("@azure/storage-blob");
 const path = require("path");
-require("dotenv").config(); // Load environment variables
-const storageName = process.env.AZURE_STORAGE_NAME;
-const storageKey = process.env.AZURE_STORAGE_KEY;
+const {
+  uploadTxtFileToAzure,
+  uploadHTMLFileToAzure,
+  NEWSLETTERS_FOLDER,
+  getBlobFromAzure,
+  uploadJSONToAzure,
+} = require("./azureHelpers.js");
 
 // path: "public/web/de/newsletter", // public folder location
-const actual_root_path = "public";
+const actual_root_path = path.join(__dirname, "../../client/public");
 const root_path = "a";
 const sectionsArr = ["header", "segments", "footer"];
-const CONTAINER_NAME = "data";
-const NEWSLETTERS_FOLDER = "newsletters";
 
 const createHeaderHTML = (props) => {
-  const { header_title, header_description, header_imageName, header_img } =
-    props;
+  const { header_title, header_description, header_imageName, blobUrl } = props;
   const headerImgHTML = generator(
-    banner(SECTIONS.HEADER, header_img.filename, header_imageName)
+    banner(SECTIONS.HEADER, blobUrl, header_imageName)
   );
   const headerTextHTML = generator(
     banner_text(SECTIONS.HEADER, header_title, header_description)
@@ -57,34 +53,25 @@ const createHeaderJSON = async (props) => {
     description: header_description,
     image: {
       url: blobUrl,
-      altText: header_imageName,
+      name: header_imageName,
     },
   };
   try {
-    const downloaded = await getJSONFromAzure(
-      CONTAINER_NAME,
+    const downloaded = await getBlobFromAzure(
       `${NEWSLETTERS_FOLDER}/${folderName}/data.json`
     );
     const res = JSON.parse(downloaded.toString());
     if (res) {
-      await uploadJSONToAzure(
-        CONTAINER_NAME,
-        `${NEWSLETTERS_FOLDER}/${folderName}/data.json`,
-        {
-          ...JSON.parse(JSON.stringify(res)),
-          header: headerJSON,
-        }
-      );
+      await uploadJSONToAzure(`${NEWSLETTERS_FOLDER}/${folderName}/data.json`, {
+        ...JSON.parse(JSON.stringify(res)),
+        header: headerJSON,
+      });
     }
   } catch (err) {
     if (err.code === "BlobNotFound") {
-      await uploadJSONToAzure(
-        CONTAINER_NAME,
-        `${NEWSLETTERS_FOLDER}/${folderName}/data.json`,
-        {
-          header: headerJSON,
-        }
-      );
+      await uploadJSONToAzure(`${NEWSLETTERS_FOLDER}/${folderName}/data.json`, {
+        header: headerJSON,
+      });
     }
   }
 };
@@ -93,24 +80,19 @@ const createFooterJSON = async (props) => {
   const footerJSON = {
     image: {
       url: blobUrl,
-      altText: footer_imageName,
+      name: footer_imageName,
     },
   };
   try {
-    const downloaded = await getJSONFromAzure(
-      CONTAINER_NAME,
+    const downloaded = await getBlobFromAzure(
       `${NEWSLETTERS_FOLDER}/${folderName}/data.json`
     );
     const res = JSON.parse(downloaded.toString());
     if (res) {
-      await uploadJSONToAzure(
-        CONTAINER_NAME,
-        `${NEWSLETTERS_FOLDER}/${folderName}/data.json`,
-        {
-          ...JSON.parse(JSON.stringify(res)),
-          footer: footerJSON,
-        }
-      );
+      await uploadJSONToAzure(`${NEWSLETTERS_FOLDER}/${folderName}/data.json`, {
+        ...JSON.parse(JSON.stringify(res)),
+        footer: footerJSON,
+      });
     }
   } catch (err) {
     if (err.code === "BlobNotFound") {
@@ -120,21 +102,23 @@ const createFooterJSON = async (props) => {
 };
 
 const createNewHTML = (folderPath) => {
-  writeFileSync(
+  const localPath = path.resolve(__dirname, "index.html");
+  uploadHTMLFileToAzure(
     `${folderPath}/index.html`,
-    readFileSync(`utils/index.html`, "utf8")
+    readFileSync(`${localPath}`, "utf8")
   );
   sectionsArr.forEach((section) => {
-    writeFileSync(`${folderPath}/${section}.txt`, "");
+    uploadTxtFileToAzure(`${folderPath}/${section}.txt`, "");
   });
 };
 
 const updateHTMLTitle = (folderPath, title) => {
-  const htmlData = readFileSync(`${folderPath}/index.html`, "utf8");
+  const localPath = path.resolve(__dirname, "index.html");
+  const htmlData = readFileSync(localPath, "utf8");
   //update title
   const updatedHTML = htmlData.replace("{title}", title);
 
-  writeFileSync(`${folderPath}/index.html`, updatedHTML);
+  uploadHTMLFileToAzure(`${folderPath}/index.html`, updatedHTML);
 };
 
 const updateHTMLHeader = (folderPath, headerHtml) => {
@@ -146,9 +130,9 @@ const updateHTMLHeader = (folderPath, headerHtml) => {
 };
 
 const createFooterHTML = (props) => {
-  const { footer_imageName, footer_img } = props;
+  const { footer_imageName, blobUrl } = props;
   const footerImageHTML = generator(
-    banner(SECTIONS.FOOTER, footer_img.filename, footer_imageName)
+    banner(SECTIONS.FOOTER, blobUrl, footer_imageName)
   );
 
   return footerImageHTML;
@@ -187,7 +171,7 @@ const convertReqDataToNestedData = (input) => {
         if (!segment_layout[segmentIdx].images[imgIdx]) {
           segment_layout[segmentIdx].images[imgIdx] = {
             name: "",
-            image: {},
+            image: "",
           };
         }
 
@@ -204,23 +188,61 @@ const convertReqDataToNestedData = (input) => {
   return segment_layout;
 };
 
-const createSegmentJSON = async (props) => {
-  const { header_imageName, header_image, ...rest } = props;
+const createSectionsJSON = async (props) => {
+  const { folderName } = props;
+  try {
+    const downloaded = await getBlobFromAzure(
+      `${NEWSLETTERS_FOLDER}/${folderName}/data.json`
+    );
+    const res = JSON.parse(downloaded.toString());
+    if (res) {
+      await uploadJSONToAzure(`${NEWSLETTERS_FOLDER}/${folderName}/data.json`, {
+        ...JSON.parse(JSON.stringify(res)),
+        segments: [],
+      });
+    }
+  } catch (err) {
+    if (err.code === "BlobNotFound") {
+      throw new Error(err);
+    }
+  }
+};
 
-  const segmentHeaderBlobUrl = await uploadFileToAzure(
-    { body: { header_imageName } },
-    header_image
-  );
-  const SegmentHeaderJSON = {
-    header: {
-      image: {
-        url: segmentHeaderBlobUrl,
-        altText: header_imageName,
-      },
+const createSegmentJSON = (props) => {
+  const { header_imageName, header_image, ...rest } = props;
+  const segmentHeaderJSON = {
+    image: {
+      url: header_image,
+      name: header_imageName,
     },
   };
-  const data = convertReqDataToNestedData(props);
-  console.log(data);
+  const segmentLayoutsJSON = createSegmentLayoutsJSON(rest);
+  let finalJSON = { header: segmentHeaderJSON, layouts: segmentLayoutsJSON };
+  return finalJSON;
+};
+
+const createSegmentLayoutsJSON = (props) => {
+  const SegmentLayoutsJSON = convertReqDataToNestedData(props);
+  return SegmentLayoutsJSON;
+};
+
+const addSegmentJSON = async (folderPath, jsonData) => {
+  const filePath = `${folderPath}/data.json`;
+  try {
+    const downloaded = await getBlobFromAzure(filePath);
+    const res = JSON.parse(downloaded.toString());
+    if (res) {
+      const oldData = { ...JSON.parse(JSON.stringify(res)) };
+      oldData.segments.push(jsonData);
+      await uploadJSONToAzure(filePath, {
+        ...JSON.parse(JSON.stringify(oldData)),
+      });
+    }
+  } catch (err) {
+    if (err.code === "BlobNotFound") {
+      throw new Error(err);
+    }
+  }
 };
 
 const createSegmentHTML = (props) => {
@@ -243,7 +265,7 @@ const createSegmentHTML = (props) => {
 const createSegmentHeaderHTML = (props) => {
   const { header_imageName, header_image } = props;
   const ImageHTML = generator(
-    banner(SECTIONS.SEGMENT, header_image.filename, header_imageName)
+    banner(SECTIONS.SEGMENT, header_image, header_imageName)
   );
   return ImageHTML;
 };
@@ -264,20 +286,16 @@ const createSegmentLayoutsHTML = (props) => {
   return finalHTML;
 };
 
-const addSegmentHTML = (folderPath, htmlText) => {
-  appendFileSync(`${folderPath}/segments.txt`, "\n" + htmlText);
+const addSegmentHTML = async (folderPath, htmlText) => {
+  const filePath = `${folderPath}/segments.txt`;
+  const sectionBuffer = await getBlobFromAzure(filePath);
+  let sectionContent = sectionBuffer.toString("utf-8");
+  sectionContent += "\n" + htmlText;
+  createSectionsHTMLFile(folderPath, "segments", sectionContent);
 };
 
-const createSectionsHTMLFile = (folderPath, fileName, html) => {
-  writeFileSync(`${folderPath}/${fileName}.txt`, html);
-};
-
-const updateHTMLSegements = (folderPath) => {
-  const htmlData = readFileSync(`${folderPath}/index.html`, "utf8");
-  const segmentsHtml = readFileSync(`${folderPath}/segments.txt`, "utf8");
-  const updatedHTML = htmlData.replace("{segments}", segmentsHtml);
-  writeFileSync(`${folderPath}/index.html`, updatedHTML);
-  unlinkSync(`${folderPath}/segments.txt`);
+const createSectionsHTMLFile = async (folderPath, fileName, html) => {
+  await uploadTxtFileToAzure(`${folderPath}/${fileName}.txt`, html);
 };
 
 const createSegmentLayoutContent = (props) => {
@@ -294,9 +312,9 @@ const createSegmentLayoutImages = (props) => {
   if (type === "Two Column") {
     layoutImages += generator(sbs_image(images, url));
   } else if (type === "One Column") {
-    if (images[0].image.filename) {
+    if (images[0].image) {
       layoutImages += generator(
-        banner(SECTIONS.SEGMENT, images[0].image.filename, images[0].name, url)
+        banner(SECTIONS.SEGMENT, images[0].image, images[0].name, url)
       );
     }
   }
@@ -309,24 +327,39 @@ const copyFolderToPublicFolder = () => {
 };
 
 const txtFilePath = (folderName, fileName) =>
-  path.join(root_path, folderName, `${fileName}.txt`);
+  path.join(NEWSLETTERS_FOLDER, folderName, `${fileName}.txt`);
 
 // Function to combine individual txt fiels to html file
-const combineFilesToIndexHTMLFile = (folderName) => {
-  const filePath = path.join(root_path, folderName, "index.html");
-  const html = readFileSync(`${filePath}`, "utf8");
-  let updatedHTML = sectionsArr.reduce(
-    (acc, fileName) =>
-      acc.replace(
-        `{${fileName}}`,
-        readFileSync(txtFilePath(folderName, fileName), "utf8")
-      ),
-    html
+const combineFilesToIndexHTMLFile = async (folderName) => {
+  const htmlFilePath = `${NEWSLETTERS_FOLDER}/${folderName}/index.html`;
+
+  // Fetch the base HTML file and convert Buffer to string
+  let htmlFileBuffer = await getBlobFromAzure(htmlFilePath);
+  let htmlFile = htmlFileBuffer.toString("utf-8");
+
+  // Fetch content for each section asynchronously
+  const updatedHTML = await sectionsArr.reduce(
+    async (accPromise, fileName) => {
+      const acc = await accPromise;
+
+      // Construct the path for the section content
+      const filePath = txtFilePath(`${folderName}`, fileName);
+
+      // Fetch the section content
+      const sectionBuffer = await getBlobFromAzure(filePath);
+      const sectionContent = sectionBuffer.toString("utf-8");
+
+      // Replace the section placeholder with the content
+      return acc.replace(`{${fileName}}`, sectionContent);
+    },
+    Promise.resolve(htmlFile) // Initial promise with base HTML file
   );
-  writeFileSync(`${filePath}`, updatedHTML, "utf8");
-  sectionsArr.forEach((fileName) => {
-    unlinkSync(txtFilePath(folderName, fileName));
-  });
+
+  const filePath = path.join(root_path, NEWSLETTERS_FOLDER, folderName);
+  if (!existsSync(filePath)) {
+    mkdirSync(filePath, { recursive: true });
+  }
+  writeFileSync(`${filePath}/index.html`, updatedHTML, "utf8");
 };
 
 // Function to copy a folder
@@ -377,157 +410,6 @@ const removeNestedFolders = (dirPath) => {
   }
 };
 
-const generateSASToken = (containerName = CONTAINER_NAME) => {
-  const sharedKeyCredential = new StorageSharedKeyCredential(
-    storageName,
-    storageKey
-  );
-
-  const sasOptions = {
-    containerName: containerName, // Container where the blob is stored
-    expiresOn: new Date(new Date().valueOf() + 24 * 60 * 60 * 1000), // Expiration time set to 24 hours
-    permissions: ContainerSASPermissions.parse("rwl"), // Permissions, e.g., "r" for read, "w" for write, "l" for list
-  };
-
-  // Generate the SAS token parameters
-  const sasToken = generateBlobSASQueryParameters(
-    sasOptions,
-    sharedKeyCredential
-  ).toString();
-
-  return {
-    token: sasToken,
-    expiration: sasOptions.expiresOn, // Return expiration time for later checking
-  };
-};
-let currentSASToken = generateSASToken(); // Initial SAS token generation
-
-// Function to continuously refresh the SAS token before it expires
-const refreshSASToken = (containerName = CONTAINER_NAME) => {
-  const checkInterval = 30 * 60 * 1000; // Check every 30 minutes
-
-  setInterval(() => {
-    const now = new Date();
-    const timeLeft = currentSASToken.expiration - now;
-
-    // If the token is about to expire within the next 30 minutes, regenerate it
-    if (timeLeft <= 30 * 60 * 1000) {
-      console.log("SAS Token is about to expire. Regenerating a new one...");
-      currentSASToken = generateSASToken(containerName);
-      console.log("New SAS Token generated:", currentSASToken.token);
-    }
-  }, checkInterval);
-};
-
-// Start refreshing the SAS token continuously
-refreshSASToken();
-
-const blobServiceClient = new BlobServiceClient(
-  `https://${storageName}.blob.core.windows.net?${currentSASToken.token}`
-);
-
-const uploadFileToBlob = async (directoryPath, file) => {
-  return new Promise((resolve, reject) => {
-    const blobName = getBlobName(file.originalname);
-    const stream = getStream(file.buffer);
-    const streamLength = file.buffer.length;
-
-    const blobService = azureStorage.createBlobService(
-      azureStorageConfig.accountName,
-      azureStorageConfig.accountKey
-    );
-    blobService.createBlockBlobFromStream(
-      azureStorageConfig.containerName,
-      `${directoryPath}/${blobName}`,
-      stream,
-      streamLength,
-      (err) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve({
-            filename: blobName,
-            originalname: file.originalname,
-            size: streamLength,
-            path: `${azureStorageConfig.containerName}/${directoryPath}/${blobName}`,
-            url: `${azureStorageConfig.blobURL}${azureStorageConfig.containerName}/${directoryPath}/${blobName}`,
-          });
-        }
-      }
-    );
-  });
-};
-
-const getBlobName = (originalName) => {
-  const identifier = Math.random().toString().replace(/0\./, ""); // remove "0." from start of string
-  return `${identifier}-${originalName}`;
-};
-
-// Get Blob from Azure
-const getBlobFromAzure = async (containerName = CONTAINER_NAME, blobName) => {
-  const containerClient = blobServiceClient.getContainerClient(containerName);
-  const blobClient = containerClient.getBlobClient(blobName);
-
-  const downloadBlockBlobResponse = await blobClient.download(0);
-  const downloaded = await streamToBuffer(
-    downloadBlockBlobResponse.readableStreamBody
-  );
-  return downloaded;
-};
-
-const streamToBuffer = async (readableStream) => {
-  return new Promise((resolve, reject) => {
-    const chunks = [];
-    readableStream.on("data", (data) => {
-      chunks.push(data instanceof Buffer ? data : Buffer.from(data));
-    });
-    readableStream.on("end", () => {
-      resolve(Buffer.concat(chunks));
-    });
-    readableStream.on("error", reject);
-  });
-};
-
-// Upload JSON to Azure
-const uploadJSONToAzure = async (
-  containerName = CONTAINER_NAME,
-  blobName,
-  jsonData
-) => {
-  const containerClient = blobServiceClient.getContainerClient(containerName);
-  const blobClient = containerClient.getBlockBlobClient(blobName);
-
-  const jsonString = JSON.stringify(jsonData);
-  const res = await blobClient.upload(jsonString, jsonString.length);
-  return res;
-};
-
-// Upload the file to Azure Blob Storage
-const uploadFileToAzure = async (req, file) => {
-  try {
-    const blobName = `${NEWSLETTERS_FOLDER}/${req.body.folderName}/${
-      req.body[file.fieldname + "Name"]
-    }${path.extname(file.originalname)}`;
-    const containerClient =
-      blobServiceClient.getContainerClient(CONTAINER_NAME);
-    const blockBlobClient = containerClient.getBlockBlobClient(blobName);
-    const uploadStream = createReadStream(file.path);
-    await blockBlobClient.uploadStream(uploadStream, file.size);
-
-    // Construct the URL for the uploaded blob
-    const blobUrl = blockBlobClient.url;
-
-    // Remove the file from the server's local storage after upload
-    unlinkSync(file.path);
-
-    return blobUrl;
-  } catch (err) {
-    throw new Error("Error uploading to Azure Blob Storage:" + err.message);
-  }
-};
-
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
 module.exports = {
   actual_root_path,
   root_path,
@@ -546,16 +428,11 @@ module.exports = {
   createSectionsHTMLFile,
   combineFilesToIndexHTMLFile,
   copyFolderToPublicFolder,
-  generateSASToken,
-  uploadFileToBlob,
-  CONTAINER_NAME,
   NEWSLETTERS_FOLDER,
-  getBlobFromAzure,
-  uploadJSONToAzure,
-  uploadFileToAzure,
   createHeaderJSON,
   createFooterJSON,
+  createSectionsJSON,
   createSegmentJSON,
-  delay,
-  currentSASToken,
+  addSegmentJSON,
+  txtFilePath,
 };

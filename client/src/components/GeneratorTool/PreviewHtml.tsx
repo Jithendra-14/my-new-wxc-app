@@ -10,7 +10,7 @@ const PreviewHtml = () => {
       {state.previewSection !== NEWS_LETTER_PREVIEW_STAGE.name ? (
         <iframe
           title="DE News Letter"
-          src={`${API_URL}/preview?type=${state.type}&name=${state.name}&stage=${state.previewSection}`}
+          src={`${API_URL}/preview/html?type=${state.type}&name=${state.name}&stage=${state.previewSection}`}
           className="preview"
         ></iframe>
       ) : (

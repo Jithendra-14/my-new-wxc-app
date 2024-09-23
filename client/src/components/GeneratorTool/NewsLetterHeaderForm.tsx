@@ -1,5 +1,7 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import {
+  API_URL,
+  Data,
   NEWS_LETTER_ACTION_TYPES,
   NEWS_LETTER_FORM_SECTION_STAGES,
   NEWS_LETTER_PREVIEW_STAGE,
@@ -8,9 +10,33 @@ import useContextHook from "./context/useContextHook";
 import ImageFieldRenderer from "./ImageFieldRenderer";
 import { convertHeaderJsonToFormData, submitNewsLetterBanner } from "./utils";
 import { PrimaryButton, Stack, Text, TextField } from "@fluentui/react";
+import useFetch from "./context/useFetch";
 
 const NewsLetterHeaderForm: React.FC = () => {
   const { state, dispatch } = useContextHook();
+  const { data } = useFetch(
+    `${API_URL}/preview/json?type=${state.type}&name=${state.name}&stage=${state.previewSection}`
+  );
+
+  const handleSetStateFromApi = useCallback(
+    (data: Data | null) => {
+      dispatch({
+        type: NEWS_LETTER_ACTION_TYPES.UPDATE_NEWS_LETTER_HEADER_CONTENT,
+        payload: {
+          altText: data?.header?.image?.name || "",
+          title: data?.header?.title || "",
+          description: data?.header?.description || "",
+        },
+      });
+    },
+    [dispatch]
+  );
+
+  useEffect(() => {
+    if (data) {
+      handleSetStateFromApi(data);
+    }
+  }, [data, handleSetStateFromApi]);
 
   const handleChange = useCallback(
     (e, newValue: string) => {

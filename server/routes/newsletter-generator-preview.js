@@ -6,127 +6,55 @@ const {
   root_path,
   sectionsArr,
   txtFilePath,
-  getJSONFromAzure,
-  CONTAINER_NAME,
-  NEWSLETTERS_FOLDER,
-  delay,
-  currentSASToken,
 } = require("../utils/helpers.js");
-const { generator } = require("../utils/generator.js");
-const { SECTIONS } = require("../utils/constants.js");
-const { banner, banner_text } = require("../utils/index.js");
+const {
+  getBlobFromAzure,
+  NEWSLETTERS_FOLDER,
+} = require("../utils/azureHelpers.js");
 
 const api = Router();
 
-api.post("/create", function (req, res) {
-  const { type, name } = req.body;
-  const folderPath = `${root_path}/${type}/${name}`;
-  try {
-    if (!existsSync(folderPath)) {
-      mkdirSync(folderPath, { recursive: true });
-    }
-    createNewHTML(folderPath);
-    res.send({
-      status: 200,
-      data: { text: "Successfully Created Folder with the Mentioned Name" },
-    });
-  } catch (err) {
-    res.send(err);
-  }
-});
-
-api.get("/", function (req, res) {
-  const { type, name } = req.query;
-  const filePath = path.join(type, name, "index.html");
-  const html = readFileSync(`${root_path}/${filePath}`, "utf8");
-  let updatedHTML = sectionsArr.reduce(
-    (acc, fileName) =>
-      acc.replace(
-        `{${fileName}}`,
-        readFileSync(txtFilePath(`${type}/${name}`, fileName), "utf8")
-      ),
-    html
-  );
-  updatedHTML = updatedHTML.replaceAll(
-    "tmp/images/",
-    `/${type}/${name}/tmp/images/`
-  );
-  res.format({
-    html() {
-      res.send(updatedHTML);
-    },
-  });
-});
-
 api.get("/html", async (req, res) => {
   const { type, name } = req.query;
-  const folderName = path.join(type, name);
+  const folderName = `${type}/${name}`;
+  const htmlFilePath = `${NEWSLETTERS_FOLDER}/${folderName}/index.html`;
 
-  let htmlFile = readFileSync(`utils/index.html`, "utf8");
   try {
-    await delay(500);
-    const json = await getJSONFromAzure(
-      CONTAINER_NAME,
-      `${NEWSLETTERS_FOLDER}/${folderName}/data.json`
+    console.log(`Fetching base HTML file from: ${htmlFilePath}`);
+
+    // Fetch the base HTML file and convert Buffer to string
+    let htmlFileBuffer = await getBlobFromAzure(htmlFilePath);
+    let htmlFile = htmlFileBuffer.toString("utf-8");
+
+    // Fetch content for each section asynchronously
+    const updatedHTML = await sectionsArr.reduce(
+      async (accPromise, fileName) => {
+        const acc = await accPromise;
+
+        // Construct the path for the section content
+        const filePath = txtFilePath(`${type}/${name}`, fileName);
+
+        // Fetch the section content
+        const sectionBuffer = await getBlobFromAzure(filePath);
+        const sectionContent = sectionBuffer.toString("utf-8");
+
+        // Replace the section placeholder with the content
+        return acc.replace(`{${fileName}}`, sectionContent);
+      },
+      Promise.resolve(htmlFile) // Initial promise with base HTML file
     );
 
-    const JSONResp = JSON.parse(json.toString());
-    if (!JSONResp) {
-      throw new Error("Unavailable Data");
-    }
-
-    // Update HTML Title
-    htmlFile = htmlFile.replace("{title}", name);
-
-    // Update HTML header Details
-    if (!JSONResp.header) {
-      htmlFile = htmlFile.replace("{header}", "");
-    }
-    if (JSONResp.header) {
-      const { image, title, description } = JSONResp.header;
-      const headerImgHTML = generator(
-        banner(
-          SECTIONS.HEADER,
-          image.url + "?" + currentSASToken.token,
-          image.altText
-        )
-      );
-      const headerTextHTML = generator(
-        banner_text(SECTIONS.HEADER, title, description)
-      );
-      htmlFile = htmlFile.replace("{header}", headerImgHTML + headerTextHTML);
-    }
-
-    // Update HTML Footer Details
-    if (!JSONResp.footer) {
-      htmlFile = htmlFile.replace("{footer}", "");
-    }
-    if (JSONResp.footer) {
-      const { image } = JSONResp.footer;
-      const footerImgHTML = generator(
-        banner(
-          SECTIONS.FOOTER,
-          image.url + "?" + currentSASToken.token,
-          image.altText
-        )
-      );
-      htmlFile = htmlFile.replace("{footer}", footerImgHTML);
-    }
-
-    // Set Content-Type to text/html
-    res.setHeader("Content-Type", "text/html");
-
-    // Send the HTML response
-    res.send(htmlFile);
+    // Send the updated HTML response
+    res.format({
+      html() {
+        res.status(200).send(updatedHTML);
+      },
+    });
   } catch (err) {
-    htmlFile = htmlFile.replace("{title}", "");
-    htmlFile = htmlFile.replace("{header}", "");
-    htmlFile = htmlFile.replace("{segments}", "");
-    htmlFile = htmlFile.replace("{footer}", "");
-    res.setHeader("Content-Type", "text/html");
-
-    // Send the HTML response
-    res.status(200).send(htmlFile);
+    // Handle the error and send a response
+    res
+      .status(500)
+      .json({ message: "Error fetching HTML content", error: err.message });
   }
 });
 
@@ -135,8 +63,7 @@ api.get("/json", async (req, res) => {
   const folderName = path.join(type, name);
 
   try {
-    const json = await getJSONFromAzure(
-      CONTAINER_NAME,
+    const json = await getBlobFromAzure(
       `${NEWSLETTERS_FOLDER}/${folderName}/data.json`
     );
 

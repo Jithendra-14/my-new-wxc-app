@@ -124,4 +124,42 @@ export interface INLSegmentLayoutsObject {
   [key: number]: TNLSegmentLayout;
 }
 
-export const API_URL = "http://localhost:3100";
+export const API_URL = "http://localhost:5000/api/newsletters/v2";
+
+export interface Header {
+  image: {
+    name: string;
+  };
+  title: string;
+  description: string;
+}
+
+export interface Footer {
+  image: {
+    name: string;
+  };
+}
+
+export interface Segment {
+  header: {
+    image: {
+      name: string;
+    }
+  },
+  layouts: {
+    type: `${NEWS_LETTER_SEGMENT_LAYOUT_TYPES}`;
+    header: string;
+    description: string;
+    images: {
+      name: string;
+      image?: string;
+    }[];
+    url: string;
+  }[]
+}
+
+export interface Data {
+  header: Header;
+  footer: Footer;
+  segments: Segment[];
+}
