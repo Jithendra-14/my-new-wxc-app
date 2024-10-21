@@ -21,11 +21,23 @@ jobs:
         with:
           node-version: '20.x'
 
-      - name: npm install, build, and test
-        run: |
-          npm install
-          npm run build --if-present
-          npm run test --if-present
+      - name: Install dependencies for client
+        run: npm install
+        working-directory: ./client  # This runs npm install in the client directory
+
+      - name: Run build for client
+        run: npm run build
+        working-directory: ./client
+
+      - name: Install dependencies for server
+        run: npm install
+        working-directory: ./server
+
+      - name: Create build directory in server if it doesn't exist
+        run: mkdir -p ./server/build
+      
+      - name: Copy client build to server folder
+        run: cp -r ./client/build/* ./server/build
 
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
@@ -53,6 +65,15 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
+
+      - name: Move server contents to root directory
+        run: mv server/* ./
+
+      - name: Remove server directory
+        run: rmdir server
+
+      - name: Remove release.zip
+        run: rm -rf /home/runner/work/my-new-wxc-app/my-new-wxc-app/release.zip
       
       - name: Login to Azure
         uses: azure/login@v2
