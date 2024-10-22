@@ -1,6 +1,12 @@
 // craco.config.cjs
 
 module.exports = {
+  devServer: (devServerConfig) => {
+    return {
+      ...devServerConfig,
+      allowedHosts: ['localhost'], // Or 'all' to allow all hosts
+    };
+  },
   webpack: {
     configure: (webpackConfig, { env, paths }) => {
       // Add ts-loader
@@ -13,3 +19,4 @@ module.exports = {
     },
   },
 };
+   

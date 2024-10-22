@@ -1,0 +1,92 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy Node.js app to Azure Web App - wxcinew
+
+on:
+  push:
+    branches:
+      - client-react-azure
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js version
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+
+      - name: Install dependencies for client
+        run: npm install
+        working-directory: ./client  # This runs npm install in the client directory
+
+      - name: Run build for client
+        run: npm run build
+        working-directory: ./client
+
+      - name: Install dependencies for server
+        run: npm install
+        working-directory: ./server
+
+      - name: Create build directory in server if it doesn't exist
+        run: mkdir -p ./server/build
+      
+      - name: Copy client build to server folder
+        run: cp -r ./client/build/* ./server/build
+
+      - name: Zip artifact for deployment
+        run: zip release.zip ./* -r
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: node-app
+          path: release.zip
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write #This is required for requesting the JWT
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: node-app
+
+      - name: Unzip artifact for deployment
+        run: unzip release.zip
+
+      - name: Move server contents to root directory
+        run: mv server/* ./
+
+      - name: Remove server directory
+        run: rm -rf server
+
+      - name: Remove release.zip
+        run: rm -rf /home/runner/work/my-new-wxc-app/my-new-wxc-app/release.zip
+      
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_6F16815FD7E644A5AE89F97B44E1C729 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_7160FA2293BB4F449F05E2DAD56A324D }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_FEB4205299AD4BF5BADFAE338AE1E10C }}
+
+      - name: 'Deploy to Azure Web App'
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'wxcinew'
+          slot-name: 'Production'
+          package: .
+          

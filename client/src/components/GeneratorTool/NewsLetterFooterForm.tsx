@@ -23,7 +23,7 @@ const NewsLetterFooterForm: React.FC = () => {
       dispatch({
         type: NEWS_LETTER_ACTION_TYPES.SET_NEWS_LETTER_FOOTER_IMAGE_ALT_TEXT,
         payload: {
-          altText: data?.footer?.image?.altText || "",
+          altText: data?.footer?.image?.name || "",
         },
       });
     },
@@ -64,7 +64,7 @@ const NewsLetterFooterForm: React.FC = () => {
     });
   };
 
-  const handleNext = async (e: { preventDefault: () => void }) => {
+  const handleNext = async (e) => {
     e.preventDefault();
     const data = convertFooterJSONToFormData(
       state.footer,
@@ -76,7 +76,7 @@ const NewsLetterFooterForm: React.FC = () => {
       payload: NEWS_LETTER_PREVIEW_STAGE.preview,
     });
   };
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData();
     data.append("folderName", `${state.type}/${state.name}`);

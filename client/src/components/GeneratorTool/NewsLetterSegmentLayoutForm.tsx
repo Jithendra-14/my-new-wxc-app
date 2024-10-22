@@ -1,23 +1,17 @@
-import React, { ChangeEvent, FormEvent, useCallback } from "react";
+import React, { ChangeEvent, useCallback } from "react";
 import {
   NEWS_LETTER_ACTION_TYPES,
   NEWS_LETTER_SEGMENT_LAYOUT_TYPES,
   TNLSegmentLayout,
 } from "./constants";
 import useContextHook from "./context/useContextHook";
-import {
-  Dropdown,
-  IDropdownOption,
-  Stack,
-  Text,
-  TextField,
-} from "@fluentui/react";
+import { Dropdown, Stack, Text, TextField } from "@fluentui/react";
 import ImageFieldRenderer from "./ImageFieldRenderer";
 
 const NewsLetterSegmentLayoutForm = (props: {
   data: TNLSegmentLayout;
-  segmentId: any;
-  layoutId: any;
+  segmentId: string;
+  layoutId: string;
 }) => {
   const { state, dispatch } = useContextHook();
   const { data, segmentId, layoutId } = props;
@@ -26,7 +20,7 @@ const NewsLetterSegmentLayoutForm = (props: {
   );
 
   const updateLayoutData = useCallback(
-    (layoutId: any, segmentId: any, newData: any) => {
+    (layoutId, segmentId, newData) => {
       let data = { ...state.segments };
       let layoutData = { ...data[segmentId].layouts };
       const currentLayoutData = { ...layoutData[layoutId] };
@@ -49,46 +43,37 @@ const NewsLetterSegmentLayoutForm = (props: {
   );
 
   const handleInputChange = useCallback(
-    (
-      e: FormEvent<HTMLInputElement | HTMLTextAreaElement>,
-      newValue?: string
-    ) => {
-      const { name, value } = e.target as HTMLInputElement;
+    (e) => {
+      const { name, value } = e.target;
       updateLayoutData(layoutId, segmentId, { [name]: value });
     },
     [layoutId, segmentId, updateLayoutData]
   );
 
   const handleDropdownChange = useCallback(
-    (
-      event: FormEvent<HTMLDivElement>,
-      item?: IDropdownOption<any>,
-      index?: number
-    ) => {
-      if (item) {
-        const newData = {
-          type: item.key,
-          pics:
-            item.key === NEWS_LETTER_SEGMENT_LAYOUT_TYPES.TWO_COLUMN
-              ? [
-                  { image: null, altText: "" },
-                  { image: null, altText: "" },
-                ]
-              : [{ image: null, altText: "" }],
-        };
-        updateLayoutData(layoutId, segmentId, newData);
-      }
+    (e, item) => {
+      const newData = {
+        type: item.key,
+        pics:
+          item.key === NEWS_LETTER_SEGMENT_LAYOUT_TYPES.TWO_COLUMN
+            ? [
+                { image: null, altText: "" },
+                { image: null, altText: "" },
+              ]
+            : [{ image: null, altText: "" }],
+      };
+      updateLayoutData(layoutId, segmentId, newData);
     },
     [layoutId, segmentId, updateLayoutData]
   );
 
   const handleChange = useCallback(
-    (e: { target: HTMLInputElement }, inputKey?: string) => {
+    (e, inputKey?: string) => {
       let data = { ...state.segments };
       let layoutData = { ...data[segmentId].layouts };
       const currentLayoutData: TNLSegmentLayout = { ...layoutData[layoutId] };
 
-      const [key, idx] = (inputKey?.split("_") as [string, string]) || ["", ""];
+      const [key, idx] = inputKey?.split("_");
       currentLayoutData[key][idx][e.target.name] =
         e.target.type === "file"
           ? (e.target as HTMLInputElement).files
@@ -107,9 +92,7 @@ const NewsLetterSegmentLayoutForm = (props: {
           label="Type"
           id="newsletter_segment_layout_type"
           ariaLabel="Layout Type"
-          selectedKey={
-            data ? data.type : NEWS_LETTER_SEGMENT_LAYOUT_TYPES.ONE_COLUMN
-          }
+          selectedKey={data ? data.type : undefined}
           onChange={handleDropdownChange}
           placeholder="Select News Letter Type"
           options={dropDownOptions}

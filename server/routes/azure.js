@@ -2,7 +2,7 @@ const { Router } = require("express");
 const router = Router();
 const {
   CONTAINER_NAME,
-  getJSONFromAzure,
+  getBlobFromAzure,
   uploadJSONToAzure,
   generateSASToken,
 } = require("../utils/helpers");
@@ -11,7 +11,7 @@ router.get("/get-json/:blobName", async (req, res) => {
   const { blobName } = req.params;
 
   try {
-    const downloaded = await getJSONFromAzure(CONTAINER_NAME, blobName);
+    const downloaded = await getBlobFromAzure(CONTAINER_NAME, blobName);
 
     res.json(JSON.parse(downloaded.toString()));
   } catch (error) {

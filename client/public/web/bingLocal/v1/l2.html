@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Bing - Travel L2</title>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0" />
+    <meta name="referrer" content="origin" />
+    <link href="https://www.bing.com/sa/simg/favicon-2x.ico" rel="shortcut icon">
+    <link rel="stylesheet" type="text/css" href="content/css/l2.css" />
+    <link rel="stylesheet" type="text/css" href="../../shared/css/desktopcombinev2.css" />
+    <script type="text/javascript" src="../../shared/js/jquery-1.11.0.js"></script>
+    <script src="content/js/main.js"></script>
+</head>
+
+<body>
+    <header id="bt_header_content" class="bt-layout">
+        <div class="bt-header-nav b_clearfix">
+            <div class="brad_logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="36" viewBox="0 0 25 36">
+                    <g fill="#FFF" fill-rule="nonzero">
+                        <path d="M7 27.832V2.52L0 0v31.966L7.1 36 25 25.613v-8.168z" />
+                        <path d="M17.293 22.091l7.694-4.607L9 12l3.019 7.7 4.77 2.3z" opacity=".5" />
+                    </g>
+                </svg>
+            </div>
+            <div class="bt-page-title">Travel at Microsoft</div>
+            <div id="id_h">
+                <span>Suri</span>
+                <span class="sw_spd id_avatar"></span>
+            </div>
+        </div>
+        <nav class="b_scopebar" role="navigation" data-bm="0">
+            <ul>
+                <li class="stop">New Bookings</li>
+                <li>My Bookings</li>
+            </ul>
+        </nav>
+    </header>
+    <div class="bt-trip-details-nav bt-layout">
+        <div class="bt-trip-info">
+            <div class="bt-travel-itinerary"><span class="icon icon-white icon-itinerary"></span>
+            </div>
+            <div class="bt-trip-srcdest">
+                <span>Hyderbad, India · (HYD) </span><span class="icon icon-white icon-switchIcon" id="switch"></span><span>Seattle, Washington · (SEA)</span>
+            </div>
+            <div class="bt-trip-doj">
+                <span>Fri, January 12 </span> <span>-</span> <span>Mon, January 28</span>
+            </div>
+            <div class="bt-trip-book-fhc">
+                <span class="icon icon-white icon-airplane" id="airPlane"></span>
+                <span>Economy class</span>
+                <span class="dupont"> · </span>
+                <span class="icon icon-white icon-hotel" id="hotel"></span>
+                <span>All star</span>
+                <!-- <span class="icon icon-white icon-car disabled" id="car"></span> -->
+            </div>
+            <!-- <div class="bt-trip-currency"><span>USD</span></div> -->
+            <div class="bt-trip-btn">
+                <button class="modifyTrip">Modify trip</button>
+            </div>
+        </div>
+        <div class="bt-trip-modify-search bt-layout" style="display: none;">
+            <div class="bt-travel-itinerary"><span class="icon icon-white icon-itinerary"></span> </div>
+            <div class="bt-trip-modify-ddbtn">
+                <label for="from">From</label> <span class="icon icon-gray icon-left icon-mapPinArt"></span>
+                <select name="from" id="from">
+                    <option>City, airport or train station</option>
+                    <option value="1">Test 1</option>
+                    <option value="2">Test 2</option>
+                </select>
+                <span class="icon icon-gray icon-right icon-chevronFlipDown"></span>
+            </div>
+            <div class="bt-trip-modify-ddbtn">
+                <label for="from">To</label>
+                <span class="icon icon-gray icon-left icon-mapPinArt"></span>
+                <select name="from" id="from">
+                    <option>City, airport or train station</option>
+                    <option value="1">Test 1</option>
+                    <option value="2">Test 2</option>
+                </select>
+                <span class="icon icon-gray icon-right icon-chevronFlipDown"></span>
+            </div>
+            <div class="bt-trip-modify-ddbtn">
+                <label for="from">Depart</label>
+                <span class="icon icon-gray icon-left icon-calendar"></span>
+                <input type="date" name="depart">
+                <span class="icon icon-gray icon-right icon-chevronFlipDown"></span>
+            </div>
+            <div class="bt-trip-modify-ddbtn">
+                <label for="from">Return</label>
+                <span class="icon icon-gray icon-left icon-calendar"></span>
+                <input type="date" name="return">
+                <span class="icon icon-gray icon-right icon-chevronFlipDown"></span>
+            </div>
+            <div class="search-cbt">
+                <div class="searchTitle">Search and book for</div>
+                <ul class="bt-cbt">
+                    <li>
+                        <div>
+                            <!-- <input type="checkbox" id="flights" name="travelCategory" value="flights"> -->
+                            <span class="icon icon-left icon-white icon-checkbox"></span>
+                            <label for="flights">
+                                <span class="checkbox-type"></span> Flights
+                            </label>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <!-- <input type="checkbox" id="hotels" name="travelCategory" value="hotels"> -->
+                            <span class="icon icon-left icon-white icon-checkbox"></span>
+                            <label for="hotels">
+                                <span class="checkbox-type"></span> Hotels
+                            </label>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <!-- <input type="checkbox" id="car rentals" name="travelCategory" value="car rentals"> -->
+                            <span class="icon icon-left icon-white icon-checkbox"></span>
+                            <label for="car rentals">
+                                <span class="checkbox-type"></span> Car rentals
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+                <div class="bt-modify-trip-btn">
+                    <button class="modifySearchTrip">Modify trip</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bt-page-body bt-layout">
+        <div class="bt-page-content">
+            <div class="bt-trip-obheader b_clearfix">
+                <div class="bt-ts-ttl">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M14 6c.27 0 .529.053.773.16.245.107.457.25.637.43s.323.392.43.637c.107.244.16.502.16.773 0 .276-.053.535-.16.777-.107.243-.25.453-.43.633s-.392.323-.637.43c-.244.107-.502.16-.773.16h-3.5l-3 6H4l2-6H4l-.5 1H0l1-3-1-3h3.5L4 6h2L4 0h3.5l3 6H14zm0 3a.969.969 0 0 0 .707-.293A.969.969 0 0 0 15 8a.969.969 0 0 0-.293-.707A.969.969 0 0 0 14 7H9.883c-.516-1-1.018-1.999-1.508-2.996-.49-.997-.987-1.999-1.492-3.004H5.39c.333 1.005.664 2.007.992 3.004C6.71 5 7.047 6 7.39 7H3.383l-.5-1H1.39c.109.333.217.667.324 1 .107.333.22.667.34 1-.12.333-.233.667-.34 1-.107.333-.215.667-.324 1h1.492l.5-1H7.39c-.344 1-.68 1.999-1.008 2.996-.328.997-.659 1.999-.992 3.004h1.492a356.534 356.534 0 0 0 1.492-3.004C8.865 11 9.367 10 9.883 9H14z" />
+                    </svg>
+                    <span>Select flight</span>
+                </div>
+                <div class="bt-ts-obfl">
+                    <ul class="filters-list">
+                        <li>
+                            <select name="Stops" id="Stops">
+                                <option>Stops</option>
+                                <option value="1">Mumbai</option>
+                                <option value="2">Delhi</option>
+                            </select>
+                        </li>
+                        <li>
+                            <select name="Price" id="Price">
+                                <option>Price</option>
+                                <option value="1">$100</option>
+                                <option value="2">$200</option>
+                            </select>
+                        </li>
+                        <li>
+                            <select name="Time" id="Time">
+                                <option>Time</option>
+                                <option value="1">4:10 AM</option>
+                                <option value="2">6:40 AM</option>
+                            </select>
+                        </li>
+                        <li>
+                            <select name="Airlines" id="Airlines">
+                                <option>Airlines</option>
+                                <option value="1">Emirates</option>
+                                <option value="2">Indigo</option>
+                            </select>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bt-trip-obflights b_clearfix" id="bt-trip-obflights">
+                <div class="b_clearfix">
+                    <div class="bt-tr-fl">RECOMENDED FOR YOU</div>
+                    <div class="bt-tp-srtby">
+                        <span>Sort by:</span>
+                        <select name="flightType" id="flightType">
+                            <option>Recomended</option>
+                            <option value="1">Other flights</option>
+                            <option value="2">Recomended</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="b_clearfix">
+                    <div class="bt-ft-card-summary">
+                        <div class="bt-ft-card">
+                            <div class="bt-rd-btn">
+                                <input type="radio">
+                            </div>
+                            <div class="bt-ft-type">
+                                <img src="content/img/deccan.png" />
+                                <span class="airline-name">Delta Airlines</span>
+                            </div>
+                            <div class="bt-ft-timings">
+                                <div class="bt-ft-details bt-ibft b_clearfix">
+                                    <div class="bt-tm-pair">
+                                        <div>4:10 AM</div>
+                                        <span>HYD</span>
+                                    </div>
+                                    <div class="bt-ft-layover stops1">
+                                        <div class="bt-fs">
+                                            <span class="bt-ts"></span>
+                                            <span class="bt-ts stop stop1"></span>
+                                            <span class="bt-ts"></span>
+                                        </div>
+                                        <div class="bt-fs-line"></div>
+                                        <span>DBX · 1h 25m</span>
+                                    </div>
+                                    <div class="bt-tm-pair">
+                                        <div>10:45 AM</div>
+                                        <span>SEA</span>
+                                    </div>
+                                    <div class="bt-journey-time bt-tm-pair">
+                                        <div>26h 32m</div>
+                                        <span>1 stop</span>
+                                    </div>
+                                </div>
+                                <div class="bt-ft-details bt-obft b_clearfix">
+                                    <div class="bt-tm-pair">
+                                        <div>11:10 AM</div>
+                                        <span>SEA</span>
+                                    </div>
+                                    <div class="bt-ft-layover stops2">
+                                        <div class="bt-fs">
+                                            <span class="bt-ts"></span>
+                                            <span class="bt-ts stop stop1"></span>
+                                            <span class="bt-ts stop stop2"></span>
+                                            <!-- <span class="bt-ts stop stop3"></span> -->
+                                            <span class="bt-ts"></span>
+                                        </div>
+                                        <div class="bt-fs-line"></div>
+                                        <span class="stop stop1">DBX</span>
+                                        <span class="stop stop2">JFK</span>
+                                        <!-- <span class="stop stop3">DEL</span> -->
+                                    </div>
+                                    <div class="bt-tm-pair">
+                                        <div>08:45 PM</div>
+                                        <span>HYD</span>
+                                    </div>
+                                    <div class="bt-journey-time bt-tm-pair">
+                                        <div>32h 45m</div>
+                                        <span>2 stop</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bt-ft-price-details">
+                                <div class="bt-tm-pair">
+                                    <div>1,23,865</div>
+                                    <span>Non- refundable</span>
+                                </div>
+                                <div class="bt-ft-prq">
+                                    <img src="content/img/price_steady.png">
+                                    <span>Price steady</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bt-card-expand b_clearfix">
+                            <div class="bt-card-pref">
+                                <img src="content/img/ms_logo.png">
+                                <span>Prefered by Microsoft</span>
+                            </div>
+                            <div class="bt-chevron">
+                                <span>Flight details </span>
+                                <span class="icon icon-gray icon-chevronDown"></span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

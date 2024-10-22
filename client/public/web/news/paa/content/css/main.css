@@ -1,0 +1,394 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+html,
+body {
+    font-family: "Roboto", "Segoe UI", "SegoeUI", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+    background-color: #f5f5f5;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    font-size: 24px;
+    font-weight: 500;
+    padding: 20px;
+    text-align: center;
+    background: #00809d;
+    color: #fff;
+    border-bottom: 2px solid rgb(224, 224, 224);
+}
+
+.center-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #969696;
+}
+
+.main-header {
+    padding: 18px 0 23px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bing-search {
+    width: 16px;
+    height: 16px;
+    background-image: url("../../../../shared/img/search-icon.png");
+    background-size: cover;
+}
+
+.bing-logo {
+    width: 26px;
+    height: 26px;
+    background-image: url("../../../../shared/img/binglogo-new.png");
+    background-size: cover;
+}
+
+.header-thumbnail {
+    width: 19px;
+    height: 14px;
+    background-image: url("../../../../shared/img/handlebar.png");
+    background-size: cover;
+}
+
+.fluid-container {
+    max-width: 375px;
+    height: 770px;
+    width: 375px;
+    box-sizing: border-box;
+    padding: 0 16px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 5px 2px #ddd;
+    overflow: auto;
+    margin: 20px auto;
+}
+
+@media only screen and (min-width: 539px) {
+    ::-webkit-scrollbar {
+       width: 0;
+       height: 0;
+   }
+}
+
+@media only screen and (max-width: 639px) {
+   body, .fluid-container {
+       width: 100%;
+       max-width: 100%;
+       height: 100%;
+   }
+
+   .header {
+       display: none;
+   }
+
+   .fluid-container {
+       margin: 0;
+   }
+}
+
+.hide {
+    display: none;
+}
+
+.news-title {
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: normal;
+}
+
+.article-detais-container {
+    margin: 0 -16px;
+}
+
+.article-item {
+    margin-bottom: 25px;
+}
+
+.article-image-thumbnail {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 186px;
+    width: 100%;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+.article-source-info,
+.answer-source {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.article-source-channel {
+    background-image: url("../img/cnn.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+}
+
+.article-header-image,
+.answer-source-img {
+    height: 20px;
+    width: 20px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: inline-block;
+}
+
+.secondary-text {
+    color: #969696;
+    font-size: 11px;
+    font-weight: normal;
+}
+
+.article-headline {
+    margin-bottom: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    color: unset;
+    display: inline-block;
+}
+
+.paa-heading {
+    margin-bottom: 10px;
+}
+
+.carousel-container {
+    overflow: hidden;
+}
+
+.carousel-items-container {
+    list-style-type: none;
+    margin: 0;
+    display: flex;
+    overflow: auto;
+    padding: 2px;
+    margin-bottom: 10px;
+}
+
+.qns-carousel-link {
+    text-decoration: none;
+    color: unset;
+    height: 100%;
+    width: 100%;
+}
+
+.qns-carousel-item {
+    height: 275px;
+    width: 188px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+    overflow: hidden;
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 2px 0px;
+    display: flex;
+    flex-direction: column;
+}
+
+.question-heading {
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 18px;
+    overflow: hidden;
+    line-height: 18px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    max-height: 36px;
+    /* line-height*-webkit-line-clamp;*/
+    min-height: 34px;
+}
+
+.answer-body {
+    color: #111;
+    margin-bottom: 10px;
+    font-size: 12px;
+    flex: 1;
+    overflow: hidden;
+    line-height: 18px;
+    display: -webkit-box;
+    -webkit-line-clamp: 9;
+    -webkit-box-orient: vertical;
+    max-height: 162px;
+    /* line-height*-webkit-line-clamp;*/
+    min-height: 160px;
+}
+
+.answer-url {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    max-width: 100%;
+    text-decoration: none;
+    font-size: 10px;
+    line-height: 18px;
+    color: #003dbf;
+    margin-top: 10px;
+}
+
+.answer-url:hover {
+    text-decoration: underline;
+}
+
+.article-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 45px;
+    padding: 0 10px;
+}
+
+.article-exit {
+    height: 12px;
+    width: 14px;
+    background-repeat: no-repeat;
+    background-image: url("../../../../shared/img/arrow-back.png");
+    cursor: pointer;
+    display: inline-block;
+}
+
+.article-detais-container .article-image-thumbnail {
+    border-radius: 0;
+}
+
+.article-content {
+    padding: 14px;
+    padding-top: 0;
+}
+
+.article-content .article-headline {
+    margin-bottom: 5px;
+}
+
+.article-body {
+    color: #444444;
+    font-size: 12px;
+    line-height: 20px;
+    padding: 20px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 30;
+    -webkit-box-orient: vertical;
+    max-height: 585px;
+    overflow: hidden;
+    /*line-height * -webkit-line-clamp + padding;;*/
+}
+
+.article-source-details {
+    line-height: 20px;
+    overflow: hidden;
+}
+
+.article-date {
+    margin-left: 10px;
+}
+
+.accordion-items-container {
+    border: 1px solid #dddddd;
+    list-style-type: none;
+}
+
+.accordion-item {
+    min-height: 40px;
+    border-bottom: 1px solid #ddd;
+}
+
+.accordion-item:last-child {
+    border-bottom: 0;
+}
+
+.accordion-heading-container {
+    font-size: 12px;
+    font-weight: normal;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 0 14px;
+}
+
+.accordion-heading-container.active {
+    font-weight: 600;
+}
+
+.accordion-heading {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-right: 5px;
+}
+
+.accordion-body-container {
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease-out;
+}
+
+.accordion-body {
+    padding: 10px 14px;
+}
+
+.accordion-body .answer-url {
+    font-size: 12px;
+}
+
+.accordion-toggle-icon {
+    display: inline-block;
+    height: 8px;
+    width: 8px;
+    border: 1px solid #969696;
+    border-top: 0;
+    border-left: 0;
+    transform: rotate(225deg);
+    margin-top: 4px;
+}
+
+.accordion-toggle-icon.arrow-down {
+    transform: rotate(45deg);
+    margin-top: -4px;
+}
+
+.article-answer {
+    color: #444444;
+    margin-bottom: 10px;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.accordion-body .article-answer-url {
+    margin-top: 6px;
+    color: #006d21;
+    font-size: 10px;
+    text-decoration: none;
+}
+
+.accordion-item-animate {
+    animation: accordionAnimation 0.5s linear;
+}
+
+@keyframes accordionAnimation {
+    from {
+        transform: scale(0.1);
+    }
+    to {
+        transform: scale(1);
+    }
+}

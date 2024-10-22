@@ -1,0 +1,14 @@
+{   
+    "DEcomponentsData" : {
+        "Components": [
+            {
+                "name": "Carousel",
+                "description": "Carousel created for travel hub page",
+                "linkLabel": "Carousel",
+                "link": "web/app/src/components/index.html",
+                "image": "https://www.bing.com/th?id=ABTCFB92E9B16BFBADB25B1C093D869706C75C7AC88D39D33448CB02409BE0636F8&w=150&h=100&c=4&qlt=50&o=6&dpr=1.6&pid=SANGAM",
+                "imageCover": "../../../icons/images/v2-img.png"
+            }
+        ]
+    }
+}

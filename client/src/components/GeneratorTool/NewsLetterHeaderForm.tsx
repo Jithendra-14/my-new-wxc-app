@@ -1,4 +1,4 @@
-import React, { FormEvent, useCallback, useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import {
   API_URL,
   Data,
@@ -23,7 +23,7 @@ const NewsLetterHeaderForm: React.FC = () => {
       dispatch({
         type: NEWS_LETTER_ACTION_TYPES.UPDATE_NEWS_LETTER_HEADER_CONTENT,
         payload: {
-          altText: data?.header?.image?.altText || "",
+          altText: data?.header?.image?.name || "",
           title: data?.header?.title || "",
           description: data?.header?.description || "",
         },
@@ -39,20 +39,16 @@ const NewsLetterHeaderForm: React.FC = () => {
   }, [data, handleSetStateFromApi]);
 
   const handleChange = useCallback(
-    (
-      e: FormEvent<HTMLInputElement | HTMLTextAreaElement>,
-      newValue?: string | undefined
-    ) => {
-      const { type, name, files } = e.target as HTMLInputElement;
-      if (type === "file") {
+    (e, newValue: string) => {
+      if (e.target.type === "file") {
         dispatch({
           type: NEWS_LETTER_ACTION_TYPES.SET_NEWS_LETTER_HEADER_IMAGE,
-          payload: { image: files },
+          payload: { image: (e.target as HTMLInputElement).files },
         });
       } else {
         dispatch({
           type: NEWS_LETTER_ACTION_TYPES.UPDATE_NEWS_LETTER_HEADER_CONTENT,
-          payload: { [name]: newValue },
+          payload: { [e.target.name]: newValue },
         });
       }
     },

@@ -3,38 +3,28 @@ const { existsSync, mkdirSync } = require("fs");
 const {
   createNewHTML,
   root_path,
-  uploadJSONToAzure,
-  getJSONFromAzure,
   NEWSLETTERS_FOLDER,
+  CONTAINER_NAME,
+  sectionsArr,
 } = require("../utils/helpers.js");
+const {
+  getBlobFromAzure,
+  uploadJSONToAzure,
+  uploadTxtFileToAzure,
+} = require("../utils/azureHelpers.js");
 
 const api = Router();
 
 api.post("/create", async function (req, res) {
   const { type, name } = req.body;
   const folderName = `${type}/${name}`;
+  const folderPath = `${NEWSLETTERS_FOLDER}/${folderName}`;
   try {
-    const downloaded = await getJSONFromAzure(
-      CONTAINER_NAME,
-      `${NEWSLETTERS_FOLDER}/${folderName}/data.json`
-    );
-    const res = JSON.parse(downloaded.toString());
-    if (res) {
-      await uploadJSONToAzure(
-        CONTAINER_NAME,
-        `${NEWSLETTERS_FOLDER}/${folderName}/data.json`,
-        {
-          ...JSON.parse(JSON.stringify(res)),
-        }
-      );
-    }
+    await getBlobFromAzure(`${folderPath}/data.json`);
   } catch (err) {
     if (err.code === "BlobNotFound") {
-      await uploadJSONToAzure(
-        CONTAINER_NAME,
-        `${NEWSLETTERS_FOLDER}/${folderName}/data.json`,
-        {}
-      );
+      uploadJSONToAzure(`${folderPath}/data.json`, {});
+      createNewHTML(folderPath);
     }
   } finally {
     res.send({

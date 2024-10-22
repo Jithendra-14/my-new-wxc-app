@@ -1,0 +1,249 @@
+{
+    "flightSearchRequest": [
+    {
+        "source":
+        {
+            "code": "HYD",
+            "name": "RGIA",
+            "cityName": "Hyderabad",
+            "countryName": "India"
+        },
+        "destination":
+        {
+            "code": "SEA",
+            "name": "SEA",
+            "cityName": "Seattle",
+            "countryName": "USA"
+        },
+        "departureDate": "2018-04-15"
+    },
+    {
+        "source":
+        {
+            "code": "SEA",
+            "name": "SEA",
+            "cityName": "Seattle",
+            "countryName": "USA"
+        },
+        "destination":
+        {
+            "code": "HYD",
+            "name": "RGIA",
+            "cityName": "Hyderabad",
+            "countryName": "India"
+        },
+        "departureDate": "2018-05-01"
+    }],
+    "flightItineraryResults": [
+    {
+        "resultId": "cfea7def",
+        "itineraryLegList": [
+        {
+            "listOfConnectingFlights": [
+            {
+                "carrierCode": "EL",
+                "carrierName": "Emirates",
+                "flightNumber": "3853",
+                "duration": 900,
+                "departureStationDetails":
+                {
+                    "code": "HYD",
+                    "name": "RGIA",
+                    "cityName": "Hyderabad",
+                    "countryName": "India"
+                },
+                "arrivalStationDetails":
+                {
+                    "code": "SEA",
+                    "name": "SEA",
+                    "cityName": "Seattle",
+                    "countryName": "USA"
+                },
+                "departureDateTime": "2018-04-15T06:20:00+05:30",
+                "arrivalDateTime": "2018-04-15T20:50:00-08:00",
+                "flightLogoImage":
+                {
+                    "thumbnailId": "A6p71ErdCHDbO3A1246x400",
+                    "sourceUrl": "/th?id=A6p71ErdCHDbO3A1246x400"
+                },
+                "isDelayed": false,
+                "segmentReferenceKey": "PT40H15M",
+                "delayPredictionMessage": "Unknown",
+                "opearatingCarrierName": "",
+                "airCraftName": "Airbus 777",
+                "layoverTime": 0
+            }],
+            "numberOfStops": 0,
+            "debugMessage": ""
+        },
+        {
+            "listOfConnectingFlights": [
+            {
+                "carrierCode": "EL",
+                "carrierName": "Emirates",
+                "flightNumber": "7190",
+                "duration": 1000,
+                "departureStationDetails":
+                {
+                    "code": "SEA",
+                    "name": "SEA",
+                    "cityName": "Seattle",
+                    "countryName": "USA"
+                },
+                "arrivalStationDetails":
+                {
+                    "code": "HYD",
+                    "name": "RGIA",
+                    "cityName": "Hyderabad",
+                    "countryName": "India"
+                },
+                "departureDateTime": "2018-05-01T04:45:00-08:00",
+                "arrivalDateTime": "2018-05-01T23:15:00+05:30",
+                "flightLogoImage":
+                {
+                    "thumbnailId": "A6p71ErdCHDbO3A1246x400",
+                    "sourceUrl": "/th?id=A6p71ErdCHDbO3A1246x400"
+                },
+                "isDelayed": false,
+                "segmentReferenceKey": "WRG36G",
+                "delayPredictionMessage": "Unknown",
+                "opearatingCarrierName": "",
+                "airCraftName": "Airbus 777",
+                "layoverTime": 0
+            }],
+            "numberOfStops": 0,
+            "debugMessage": ""
+        }],
+        "flightPrice":
+        {
+            "totalPrice": 856,
+            "base": 542,
+            "tax": 314,
+            "isRefundable": false,
+            "currencyCode": "UsDollars"
+        },
+        "classOfService": "Economy",
+        "isRecommendedForUser": true,
+        "pricePredictionValue": "NoChange",
+        "numberOfSeatsAvailable": 35,
+        "seatAvailabilityMessage": "FillingFast",
+        "corporatePolicies":
+        {},
+        "debugMessage": "",
+        "numberOfCarriers": "",
+        "flightLogoImage":
+        {
+            "thumbnailId": "A6p71ErdCHDbO3A1246x400",
+            "sourceUrl": "/th?id=A6p71ErdCHDbO3A1246x400"
+        },
+        "isCorporatePreferred": true
+    },
+    {
+        "resultId": "cfea7def",
+        "itineraryLegList": [
+        {
+            "listOfConnectingFlights": [
+            {
+                "carrierCode": "EL",
+                "carrierName": "Emirates",
+                "flightNumber": "3853",
+                "duration": 900,
+                "departureStationDetails":
+                {
+                    "code": "HYD",
+                    "name": "RGIA",
+                    "cityName": "Hyderabad",
+                    "countryName": "India"
+                },
+                "arrivalStationDetails":
+                {
+                    "code": "SEA",
+                    "name": "SEA",
+                    "cityName": "Seattle",
+                    "countryName": "USA"
+                },
+                "departureDateTime": "2018-04-15T06:20:00+05:30",
+                "arrivalDateTime": "2018-04-15T20:50:00-08:00",
+                "flightLogoImage":
+                {
+                    "thumbnailId": "A6p71ErdCHDbO3A1246x400",
+                    "sourceUrl": "/th?id=A6p71ErdCHDbO3A1246x400"
+                },
+                "isDelayed": false,
+                "segmentReferenceKey": "PT40H15M",
+                "delayPredictionMessage": "Unknown",
+                "opearatingCarrierName": "",
+                "airCraftName": "Airbus 777",
+                "layoverTime": 0
+            }],
+            "numberOfStops": 0,
+            "debugMessage": ""
+        },
+        {
+            "listOfConnectingFlights": [
+            {
+                "carrierCode": "EL",
+                "carrierName": "Emirates",
+                "flightNumber": "7190",
+                "duration": 1000,
+                "departureStationDetails":
+                {
+                    "code": "SEA",
+                    "name": "SEA",
+                    "cityName": "Seattle",
+                    "countryName": "USA"
+                },
+                "arrivalStationDetails":
+                {
+                    "code": "HYD",
+                    "name": "RGIA",
+                    "cityName": "Hyderabad",
+                    "countryName": "India"
+                },
+                "departureDateTime": "2018-05-01T04:45:00-08:00",
+                "arrivalDateTime": "2018-05-01T23:15:00+05:30",
+                "flightLogoImage":
+                {
+                    "thumbnailId": "A6p71ErdCHDbO3A1246x400",
+                    "sourceUrl": "/th?id=A6p71ErdCHDbO3A1246x400"
+                },
+                "isDelayed": false,
+                "segmentReferenceKey": "WRG36G",
+                "delayPredictionMessage": "Unknown",
+                "opearatingCarrierName": "",
+                "airCraftName": "Airbus 777",
+                "layoverTime": 0
+            }],
+            "numberOfStops": 0,
+            "debugMessage": ""
+        }],
+        "flightPrice":
+        {
+            "totalPrice": 856,
+            "base": 542,
+            "tax": 314,
+            "isRefundable": false,
+            "currencyCode": "UsDollars"
+        },
+        "classOfService": "Economy",
+        "isRecommendedForUser": true,
+        "pricePredictionValue": "NoChange",
+        "numberOfSeatsAvailable": 35,
+        "seatAvailabilityMessage": "FillingFast",
+        "corporatePolicies":
+        {},
+        "debugMessage": "",
+        "numberOfCarriers": "",
+        "flightLogoImage":
+        {
+            "thumbnailId": "A6p71ErdCHDbO3A1246x400",
+            "sourceUrl": "/th?id=A6p71ErdCHDbO3A1246x400"
+        },
+        "isCorporatePreferred": true
+    }],
+    "classOfService": "Economy",
+    "tripType": "RoundTrip",
+    "errorCode": "NoError",
+    "traceId": "6af6507fc3ce4cfea7def6575e719fac",
+    "corporateName": "Microsoft"
+}

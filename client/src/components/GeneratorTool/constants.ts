@@ -67,7 +67,7 @@ export interface INewsLetterState {
   formSection: `${NEWS_LETTER_FORM_SECTION_STAGES}`;
   header: TNLHeaderFields;
   footer: TNLImageField;
-  segments: INLSegmentFormObject;
+  segments: {} | INLSegmentFormObject;
   previewSection: `${NEWS_LETTER_PREVIEW_STAGE}`;
 }
 
@@ -87,9 +87,8 @@ export type TNewsLetterContextHook = () => {
 };
 
 export type TNLImageField = {
-  [key: string]: any; // Add this index signature
-  altText: string;
   image: FileList | null;
+  altText: string;
 };
 
 export type TNLHeaderFields = TNLImageField & {
@@ -98,7 +97,7 @@ export type TNLHeaderFields = TNLImageField & {
 };
 
 export type TNLSegmentFields = {
-  type: NEWS_LETTER_SEGMENT_LAYOUT_TYPES;
+  type: `${NEWS_LETTER_SEGMENT_LAYOUT_TYPES}`;
   header: string;
   description: string;
   pics: TNLImageField[];
@@ -110,8 +109,7 @@ export type TNLSegementForm = {
 };
 
 export type TNLSegmentLayout = {
-  [key: string]: any; // Add this index signature
-  type: NEWS_LETTER_SEGMENT_LAYOUT_TYPES;
+  type: `${NEWS_LETTER_SEGMENT_LAYOUT_TYPES}`;
   header: string;
   description: string;
   pics: TNLImageField[];
@@ -119,32 +117,49 @@ export type TNLSegmentLayout = {
 };
 
 export interface INLSegmentFormObject {
-  [key: string]: TNLSegementForm;
+  [key: number]: TNLSegementForm;
 }
 
 export interface INLSegmentLayoutsObject {
-  [key: string]: TNLSegmentLayout;
+  [key: number]: TNLSegmentLayout;
 }
 
-export const API_HOST =
-  process.env.NODE_ENV === "development" ? "http://localhost:5000" : "";
-
-export const API_URL = "api/newsletters";
+export const API_URL = "http://localhost:5000/api/newsletters/v2";
 
 export interface Header {
   image: {
-    altText: string;
+    name: string;
   };
   title: string;
   description: string;
 }
+
 export interface Footer {
   image: {
-    altText: string;
+    name: string;
   };
+}
+
+export interface Segment {
+  header: {
+    image: {
+      name: string;
+    }
+  },
+  layouts: {
+    type: `${NEWS_LETTER_SEGMENT_LAYOUT_TYPES}`;
+    header: string;
+    description: string;
+    images: {
+      name: string;
+      image?: string;
+    }[];
+    url: string;
+  }[]
 }
 
 export interface Data {
   header: Header;
   footer: Footer;
+  segments: Segment[];
 }

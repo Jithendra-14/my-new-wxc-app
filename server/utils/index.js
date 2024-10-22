@@ -41,13 +41,13 @@ function sbs_image(images, url) {
     background: CONTENT_BG_COLOR,
     url: url,
     image1: {
-      path: `${images[0].image.filename}`,
+      path: `${images[0].image}`,
       alt: images[0].name,
       width: SBS_IMAGE_WIDTH,
       padding: IMAGE_PADDING[IMAGES_LAYOUT.SBS],
     },
     image2: {
-      path: `${images[1].image.filename}`,
+      path: `${images[1].image}`,
       alt: images[1].name,
       width: SBS_IMAGE_WIDTH,
       padding: IMAGE_PADDING[IMAGES_LAYOUT.SBS],

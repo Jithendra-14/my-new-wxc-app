@@ -1,0 +1,26 @@
+{
+  "protoTypeData": {
+    "Bing": [
+      {
+        "group": "Bing",
+        "initiative": "News",
+        "area": "PAA",
+        "linkLabel": "People Also Want To Know",
+        "link": "web/news/paa/",
+        "description": "",
+        "image": "/api/img/prototypes/news-paa.png",
+        "imageCover": "../../../icons/images/v2-img.png"
+      },
+      {
+        "group": "Bing",
+        "initiative": "Local",
+        "area": "L2",
+        "linkLabel": "Local Version 1",
+        "link": "web/bingLocal/v1/",
+        "description": "",
+        "image": "/api/img/prototypes/bingLocal-v1.png",
+        "imageCover": "../../../icons/images/v2-img.png"
+      }
+    ]
+  }
+}

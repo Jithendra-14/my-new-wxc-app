@@ -1,0 +1,348 @@
+@import 'variables';
+
+#b_results>li#b_main_result {
+    width: 648px;
+    height: auto;
+    border-radius: 2px;
+    padding: 0;
+    margin-top: 12px;
+    background-color: $bl_resultBodyColor;
+    @include bl-boxshadow($bl-pageResultBoxShadow);    
+}
+.b_res_img {
+        height: 140px;
+        background-color: $bl_resultBodyColor;
+        display: inline-flex;
+        >div {
+            padding-right: 2px;
+            >.image_lrg {
+                width: 222px;
+            }
+            >.image_sml {
+                width: 140px;
+            }
+        }
+    }
+    .b_res_img_tabs {
+        height: 40px;
+        background-color: $bl-whiteColor;
+    }
+
+.b_res_img_tabs>.b_res_list {
+    width: 100%;
+    >li {
+        display: inline-block;
+        padding: 12px 6px 12px 0;
+        width: 32%;
+        font-family: Arial;
+        font-size: 13px;
+        text-align: center;
+        cursor: pointer;
+        &:hover {
+            background: $bl_resultBodyColor;
+        }
+        &.active {
+            border-bottom: 3px solid $bl-brandTealColor;
+            color: $bl-brandTealColor;
+            height: 13px;
+        }
+        >a:hover {
+            text-decoration: none;
+        }
+    }
+}
+
+.bl_entity_subtitle {
+    font-size: 18px;
+    font-family: "Segoe UI", Arial, Helvetica, Sans-Serif;
+    color: $bl-darkestGrayColor;
+    margin-bottom: 12px;
+}
+
+.tab_contents_container {
+    >.tab_review_card {
+        margin: 0; //@include bl-boxshadow($bl-cardBoxShadow);
+    }
+    .bl_rest_details_card {
+        margin: 20px;
+
+        .title-padding {
+            padding-top: 16px;
+        }
+        >.bl-rest-user-rvws {
+            width: 608px;
+            border-radius: 2px;
+            background-color: $bl-whiteColor;
+            @include bl-boxshadow($bl-cardBoxShadow);
+        }
+    }
+    .review-card-hdr {
+        border-bottom: 1px solid $bl-headerNavBorder;
+        >li {
+            padding: 20px 21px;
+            width: 26%;
+            display: inline-block;
+            cursor: pointer;
+            color: $bl-reviewcardTextColor;
+            .icon {
+                width: 30px;
+                float: left;
+                overflow: hidden;
+                padding-right: 8px;
+            }
+            .tab-hdr-title {
+                padding-bottom: 8px;
+            }
+            &:hover {
+                background-color: $bl-cardButtonBGColor;
+            }
+            &.active {
+                border-bottom: 3px solid $bl-brandTealColor;
+                >.tab-hdr-title {
+                    color: $bl-darkestGrayColor;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+    .bl-rest-review-opt {
+        .menu-item-btns {
+            border-radius: 4px;
+            padding: 8px 12px;
+            margin: 0 4px 8px 0;
+            cursor: pointer;
+            color: $bl-reviewCardDescColor;
+            display: inline-block;
+            background-color: $bl-whiteColor;
+            border: solid 1px $bl-extraLightGrayColor;
+            &:hover{
+                background-color: $bl-cardButtonBGColor;
+            }
+            &.active {
+                background: $bl-brandTealColor;
+                border: 1px solid $bl-brandTealColor;
+                color: $bl-whiteColor;
+            }
+        }
+    }
+    .bl-rest-review-list {
+        border-top: 1px solid $bl-headerNavBorder;
+        border-bottom: 1px solid $bl-headerNavBorder;
+        padding: 8px 0 12px;
+        >.review-item {
+            padding: 16px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            background-color: $bl_resultBodyColor;
+            .review-info {
+                padding-bottom: 8px;
+                display: block;
+                color: $bl-reviewCardTextColor;
+                font-family: $bl-scopeFontFamily;
+                font-size: 13px;
+            }
+        }
+    }
+    .reviews-more-link {
+        padding-top: 12px;
+        color: $bl-linkTextColor;
+        font-family: $bl-scopeFontFamily;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    >.active {
+        display: block;
+    }
+}
+
+.bl_rest_details_card>.b_res_review_card,
+.tab_review_card>.b_res_review_card {
+    height: auto;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
+    margin-top: 1px;
+    padding: 7px 20px 16px;
+    background-color: $bl-whiteColor;
+    @include bl-boxshadow($bl-cardBoxShadow);
+}
+#b_results .b_res_review_card .b_factrow {
+    padding-bottom: 4px;
+}
+.bl_res_card_txtspc {
+    padding: 2px 0 5px;
+}
+
+.bl_res_card_hdr {
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+    >.crad-hdr-rt-txt {
+        float: right;
+    }
+}
+
+.review-card-desc {
+    font-family: $bl-scopeFontFamily;
+    font-size: $bl-standardTextFontSize;
+    text-align: left;
+    color: $bl-reviewCardDescColor;
+    padding-top: 6px;
+    line-height: 1.5;
+    margin-top: 10px;
+    @include bl-boxshadow($bl-cardTopBoxShadow);
+}
+
+.bl-rest-social {
+    padding: 16px;
+    border-radius: 2px;
+    background-color: $bl-whiteColor;
+
+    @include bl-boxshadow($bl-cardBoxShadow);
+    >.bl-rest-soc-icon {
+        margin: 0 28px;
+        display: inline-block;
+        text-align: center;
+        width: 54px;
+        >img {
+            padding-bottom: 8px;
+        }
+        &:first-child {
+            margin-left: 0;
+        }
+    }
+}
+
+.bl_card_button_tab {
+    padding: 8px 0 12px 0;
+    border-bottom: 1px solid $bl-headerNavBorder;
+    >.card-btn {
+        cursor: pointer;
+        width: 185px;
+        height: 32px;
+        border-radius: 2px;
+        margin-right: 2px;
+        background-color: $bl-cardButtonBGColor;
+        border: solid 1px $bl-extraLightGrayColor;
+        &:hover {
+            background: $bl_resultBodyColor;
+        }
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+}
+
+#bl_rest_basic_info {
+    padding-top: 14px;
+    position: relative;
+    overflow: hidden;
+}
+
+.bl-rest-leftnav {
+    width: 60%;
+    float: left;
+}
+
+.bl-rest-info-list>li {
+    padding-bottom: 8px;
+    .bl-res-bold-text {
+        font-family: $bl-scopeFontFamily;
+        color: $bl-reviewCardTextColor;
+        font-weight: bold;
+    }
+    .bl-res-link-text {
+        color: $bl-linkTextColor;
+        font-family: $bl-scopeFontFamily;
+    }
+    >svg {
+        padding-right: 6px;
+        margin-bottom: -2px;
+    }
+}
+
+.bl-rest-rightnav {
+    width: 40%;
+    float: right;
+    .bl-loc-map {
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-image: url('../img/map.png');
+        height: 120px;
+        width: 190px;
+        float: right;
+    }
+}
+
+#explore-carousel {
+    margin-top: 16px;
+    .carousel-card {
+        width: 194px;
+        height: 176px;
+        margin: 10px 8px 0 0;
+        border-radius: 2px;
+        background-color: $bl-whiteColor;
+        display: inline-block;
+         overflow: hidden;
+        @include bl-boxshadow($bl-carousalCardBoxShadow);
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+}
+
+.carousel-card {   
+    .card-hdr {
+        line-height: 16px;
+        border-radius: 2px;
+        text-align: left;
+        padding: 12px;
+        font-size: 11px;
+        font-weight: bold;
+        text-transform: uppercase;
+        background-color: $bl-cardButtonBGColor;
+        >svg {
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
+    .card-content {
+        padding: 8px 12px 12px;
+    }
+    .card-cont-desc {
+        padding: 8px 0 12px;
+        border-bottom: 1px solid $bl-headerNavBorder;
+        position: relative;
+    }
+    .card-rest-rating>li {
+        padding-bottom: 12px;
+        .card-bold-content {
+            font-weight: bold;
+            text-align: right;
+            float: right;
+        }
+    }
+    .card-cont-list-desc {
+        border: 0;
+        padding: 0;
+    }
+    .card-rest-list>li {
+        padding-bottom: 8px;
+        .list-right-text {
+            text-align: right;
+            float: right;
+        }
+    }
+    .no-padding {
+        padding: 0;
+    }
+    .card-footer {
+        padding: 12px 0 0;
+        color: $bl-linkTextColor;
+        font-family: $bl-scopeFontFamily;
+        font-size: 13px;
+        cursor: pointer;
+    }
+}

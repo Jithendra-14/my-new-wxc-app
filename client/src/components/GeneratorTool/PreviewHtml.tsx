@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import useContextHook from "./context/useContextHook";
-import { API_HOST, API_URL, NEWS_LETTER_PREVIEW_STAGE } from "./constants";
+import { API_URL, NEWS_LETTER_PREVIEW_STAGE } from "./constants";
 import { Stack, Text } from "@fluentui/react";
 
 const PreviewHtml = () => {
@@ -10,7 +10,7 @@ const PreviewHtml = () => {
       {state.previewSection !== NEWS_LETTER_PREVIEW_STAGE.name ? (
         <iframe
           title="DE News Letter"
-          src={`${API_HOST}/${API_URL}/preview/html?type=${state.type}&name=${state.name}&stage=${state.previewSection}`}
+          src={`${API_URL}/preview/html?type=${state.type}&name=${state.name}&stage=${state.previewSection}`}
           className="preview"
         ></iframe>
       ) : (

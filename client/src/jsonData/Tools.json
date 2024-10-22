@@ -1,0 +1,14 @@
+{
+  "toolsData": {
+    "Tools": [
+      {
+        "name": "Loading Animation ",
+        "description": "",
+        "linkLabel": "Loader Animation",
+        "link": "web/tools/loading_animation/",
+        "image": "/api/img/tools/loading_animation.png",
+        "imageCover": "../../../icons/images/v2-img.png"
+      }
+    ]
+  }
+}
