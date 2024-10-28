@@ -152,10 +152,13 @@ function textWithHeadingRow(
         ? textHeadingH4(color, heading, img, statusColor, segment, url)
         : ""
     }
-    <div
-      style="color: ${bodyColor}; font-size: ${fontSize};font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;line-height: 125%;padding: 20px 0;">
-      ${content}
-    </div>
+    ${
+      content !== ""
+      ? `<div style="color: ${bodyColor}; font-size: ${fontSize}; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 125%; padding: 20px 0;">
+          ${content}
+        </div>`
+      : ""
+    }
   </div>
 </td>
 </tr>`;

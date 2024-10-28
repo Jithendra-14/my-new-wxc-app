@@ -32,6 +32,17 @@
       "image": "/api/web/de/newsletter/Monthly/Apr2024/tmp/images/cover.png",
       "imageCover": "../../../icons/images/v2-img.png",
       "category": "DE"
+    },
+    {
+      "group": "DE",
+      "initiative": "Newsletter",
+      "area": "Design Engineering",
+      "linkLabel": "Q1 FY'2025",
+      "link": "web/de/Newsletter/Quarterly/Q1-FY2025",
+      "description": "Design Engineering newsletter for the quarter of FY 2025",
+      "image": "/api/web/de/newsletter/Quarterly/Q1-FY2025/header.png",
+      "imageCover": "../../../icons/images/v2-img.png",
+      "category": "DE"
     }
   ]
 }

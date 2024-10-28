@@ -2,7 +2,7 @@ import { ChangeEvent, ChangeEventHandler } from "react";
 
 export enum NEWS_LETTER_OPTIONS {
   Monthly = "Monthly",
-  Quaterly = "Quaterly",
+  Quarterly = "Quarterly",
 }
 
 export enum NEWS_LETTER_FORM_SECTION_STAGES {

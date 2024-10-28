@@ -23,7 +23,8 @@ const BANNER_WIDTH = 900;
 
 const SECTION_PADDING = {
   [SECTIONS.HEADER]: "0px;",
-  [SECTIONS.SEGMENT]: "10px 0px 0px 0px;",
+  [SECTIONS.SEGMENT]: "0px;",
+  [SECTIONS.SEGMENTHEADER]: "20px 0px 0px 0px;",
   [SECTIONS.FOOTER]: "20px 0px 0px 0px;",
 };
 

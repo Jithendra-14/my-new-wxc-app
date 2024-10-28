@@ -265,7 +265,7 @@ const createSegmentHTML = (props) => {
 const createSegmentHeaderHTML = (props) => {
   const { header_imageName, header_image } = props;
   const ImageHTML = generator(
-    banner(SECTIONS.SEGMENT, header_image, header_imageName)
+    banner(SECTIONS.SEGMENTHEADER, header_image, header_imageName)
   );
   return ImageHTML;
 };
