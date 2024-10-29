@@ -23,8 +23,8 @@ const BANNER_WIDTH = 900;
 
 const SECTION_PADDING = {
   [SECTIONS.HEADER]: "0px;",
-  [SECTIONS.SEGMENT]: "0px 10px;",
-  [SECTIONS.SEGMENTHEADER]: "20px 0px 0px 0px;",
+  [SECTIONS.SEGMENT]: "0px;",
+  [SECTIONS.SEGMENTHEADER]: "15px 0px 0px 0px;",
   [SECTIONS.FOOTER]: "20px 0px 0px 0px;",
 };
 
@@ -34,8 +34,8 @@ const CONTENT_BG_COLOR = "#FFF;";
 const SBS_IMAGE_WIDTH = 400;
 
 const TEXT_PADDING = {
-  [SECTIONS.HEADER]: "10px;",
-  [SECTIONS.SEGMENT]: "10px;",
+  [SECTIONS.HEADER]: "20px 0px 0px 0px;",
+  [SECTIONS.SEGMENT]: "10px 0px;",
 };
 
 const IMAGE_PADDING = {

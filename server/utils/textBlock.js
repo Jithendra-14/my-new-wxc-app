@@ -108,7 +108,7 @@ function textHeadingH4(color, heading, img, statusColor, segment, url) {
 <div style="display:inline-block;width: 100%;">
 <h4 style='color:${statusColor};font-size:16px;line-height: 125%;padding-bottom: 6px;'>${segment}</h4>
 <h4
-<span style="color: ${color}; font-weight: 400;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size:22px;font-weight:600;cursor:pointer;">
+<span style="color: ${color}; font-weight: 400;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size:22px;font-weight:600;cursor:pointer;padding:20px 0px 0px 0px;">
     ${heading}
     </span>
 </h4>
@@ -154,7 +154,7 @@ function textWithHeadingRow(
     }
     ${
       content !== ""
-      ? `<div style="color: ${bodyColor}; font-size: ${fontSize}; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 125%; padding: 20px 0;">
+      ? `<div style="color: ${bodyColor}; font-size: ${fontSize}; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 125%; padding: 10px 0;">
           ${content}
         </div>`
       : ""
