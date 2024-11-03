@@ -1,4 +1,4 @@
-const { banner, banner_text, sbs_image, images_path } = require("./index.js");
+const { banner, banner_text, sbs_image } = require("./index.js");
 const { generator } = require("./generator.js");
 const {
   appendFileSync,
@@ -413,7 +413,6 @@ const removeNestedFolders = (dirPath) => {
 module.exports = {
   actual_root_path,
   root_path,
-  images_path,
   sectionsArr,
   createHeaderHTML,
   createNewHTML,

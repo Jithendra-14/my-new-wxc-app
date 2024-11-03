@@ -42,20 +42,21 @@ function renderImageWithUrl(alt, path, width, padding, url) {
 <a href=${url} target="_blank">
   <img align="center" alt="${alt}"
     src="${path}"
-    width="${width}px"
+    width="${width}"
     style="max-width:${width}px; padding:${padding} display: inline !important;vertical-align: top; border: 0;box-sizing: border-box; "
     class="mcnImage" />
 </a>
-  `;
+`;
 }
 
 function renderImage(alt, path, width, padding) {
   return `
 <img align="center" alt="${alt}"
     src="${path}"
+    width=${width}
     style="max-width:${width}px; padding:${padding} display: inline !important; vertical-align: top; border: 0;box-sizing: border-box; "
     class="mcnImage" />
-  `;
+`;
 }
 
 function ImageRow({ alt, path, width, padding, url }) {
