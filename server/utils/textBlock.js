@@ -107,7 +107,7 @@ function textHeadingH4(color, heading, img, statusColor, segment, url) {
   return `
 <div style="display:inline-block;width: 100%;">
 <h4 style='color:${statusColor};font-size:16px;line-height: 125%;padding-bottom: 6px;'>${segment}</h4>
-<h4
+<h4>
 <span style="color: ${color}; font-weight: 400;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size:22px;font-weight:600;cursor:pointer;">
     ${heading}
     </span>

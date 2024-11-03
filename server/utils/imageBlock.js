@@ -39,7 +39,7 @@ function sbsImageTable(image1, image2, background, url) {
 
 function renderImageWithUrl(alt, path, width, padding, url) {
   return `
-<a href=${url} target="_blank">
+<a href="${url}" target="_blank" rel="noopener">
   <img align="center" alt="${alt}"
     src="${path}"
     width="${width}"
