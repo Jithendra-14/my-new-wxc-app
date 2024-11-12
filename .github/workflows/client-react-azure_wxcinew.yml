@@ -6,7 +6,7 @@ name: Build and deploy Node.js app to Azure Web App - wxcinew
 on:
   push:
     branches:
-      - client-react-azure
+      - server-auth
   workflow_dispatch:
 
 jobs:
