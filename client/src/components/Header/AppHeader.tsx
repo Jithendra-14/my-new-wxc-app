@@ -1,7 +1,7 @@
 import "./appHeader.scss";
 import "../MainContainer/mainContainer.scss";
 
-import { Callout, DefaultButton, mergeStyleSets, Persona, PersonaSize, PersonaPresence, IPersonaSharedProps } from "@fluentui/react";
+import { Callout, DefaultButton, mergeStyleSets, Persona, PersonaSize, PersonaPresence } from "@fluentui/react";
 import React, { useEffect, useState } from "react";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import { useBoolean, useId } from "@fluentui/react-hooks";
