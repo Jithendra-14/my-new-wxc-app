@@ -1,7 +1,7 @@
 import "./appHeader.scss";
 import "../MainContainer/mainContainer.scss";
 
-import { Callout, DefaultButton, mergeStyleSets } from "@fluentui/react";
+import { Callout, DefaultButton, mergeStyleSets, Persona, PersonaSize, PersonaPresence, IPersonaSharedProps } from "@fluentui/react";
 import React, { useEffect, useState } from "react";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import { useBoolean, useId } from "@fluentui/react-hooks";
@@ -25,6 +25,7 @@ export const AppHeader = (props: any) => {
   // const isAuthenticated = useIsAuthenticated();
   // const { instance, accounts } = useMsal();
   // const [graphData, setGraphData] = useState<any>(null);
+  const [personaDetails, setPersonaDetails] = useState(null);
   const [activeNav, setActiveNav] = useState("home");
   const { pathname } = useLocation();
   // const [isOpen, { setTrue: openPanel, setFalse: dismissPanel }] = useBoolean(false);
@@ -85,7 +86,25 @@ export const AppHeader = (props: any) => {
     if (isCalloutVisible) {
       toggleIsCalloutVisible();
     }
+    if (isPersonaCalloutVisible) {
+      toggleIsPersonaCalloutVisible();
+    }
   }
+
+  useEffect(() => {
+    const fetchPersonaDetails = async () => {
+      try {
+        const response = await fetch('/user/profile');
+        const data = await response.json();
+        setPersonaDetails(data);
+        console.log('Persona details:', data);
+      } catch (error) {
+        console.error('Error fetching persona details:', error);
+      }
+    };
+
+    fetchPersonaDetails();
+  }, []);
 
   // const onRenderFooterContent = React.useCallback(
   //     () => (
@@ -97,6 +116,8 @@ export const AppHeader = (props: any) => {
   // );
   const [isCalloutVisible, { toggle: toggleIsCalloutVisible }] =
     useBoolean(false);
+  const [isPersonaCalloutVisible, { toggle: toggleIsPersonaCalloutVisible }] =
+    useBoolean(false);
 
   const styles = mergeStyleSets({
     callout: {
@@ -104,8 +125,16 @@ export const AppHeader = (props: any) => {
       maxWidth: "90%",
       padding: "20px 24px",
     },
+    personaCallout: {
+      width: 200,
+      maxWidth: "90%",
+      padding: "10px 12px",
+      borderRadius: "5px",
+      overflow: "hidden",
+    }
   });
   const buttonId = useId("callout-button");
+  const personaButtonId = useId("persona-callout-button");
   // const getProfileButton = (): JSX.Element => {
   //     return (
   //         <IconButton
@@ -210,6 +239,51 @@ export const AppHeader = (props: any) => {
                 {Constants.Tools}
               </RouterLink>
             </li>
+            <li className={"listItem"} key="profile">
+              <Persona
+                text={personaDetails?.displayName}
+                hidePersonaDetails={true}
+                onClick={toggleIsPersonaCalloutVisible}
+                size={PersonaSize.size32}
+                presence={PersonaPresence.none}
+                id={personaButtonId}
+                styles={{ root: { cursor: "pointer" }, details: {padding: 0} }}
+              />
+              {isPersonaCalloutVisible && (
+                <Callout
+                  className={styles.personaCallout}
+                  role="dialog"
+                  target={`#${personaButtonId}`}
+                  onDismiss={toggleIsPersonaCalloutVisible}
+                  directionalHint={6}
+                  gapSpace={10}
+                >
+                  <ul className="persona-menu">
+                    <li>
+                      <Persona
+                        text={personaDetails?.displayName}
+                        size={PersonaSize.size32}
+                        presence={PersonaPresence.none}
+                      />
+                    </li>
+                    <li>
+                      <hr className="divider"/>
+                    </li>
+                    <li>
+                      <DefaultButton
+                        onClick={() => {
+                          toggleIsPersonaCalloutVisible();
+                          window.location.href = "/auth/signout"
+                        }}
+                        text="&#61579; Sign Out"
+                        className="sign-out-button"
+                        styles={{ label: { margin: 0 } }}
+                      />
+                    </li>
+                  </ul>
+                </Callout>
+              )}
+            </li>
             {/* <li className={activeNav === "components" ? "listItem active" : "listItem"} key="components">
                             <RouterLink
                                 className="elementor-item"
@@ -241,6 +315,17 @@ export const AppHeader = (props: any) => {
               onDismiss={toggleIsCalloutVisible}
             >
               <ul className="nav-menu-mobile">
+                <li className="listItem">
+                  <Persona
+                    text={personaDetails?.displayName}
+                    size={PersonaSize.size32}
+                    presence={PersonaPresence.none}
+                    className="elementor-item"
+                  />
+                </li>
+                <li>
+                  <hr className="divider"/>
+                </li>
                 <li
                   className={
                     activeNav === "home" ? "listItem active" : "listItem"
@@ -341,6 +426,20 @@ export const AppHeader = (props: any) => {
                   >
                     {Constants.Components}
                   </RouterLink>
+                </li>
+                <li>
+                  <hr className="divider"/>
+                </li>
+                <li className="list-item">
+                  <DefaultButton
+                    onClick={() => {
+                      toggleIsPersonaCalloutVisible();
+                      window.location.href = "/auth/signout"
+                    }}
+                    text="&#61579; Sign Out"
+                    className="elementor-item sign-out-button"
+                    styles={{ label: { margin: 0 } }}
+                  />
                 </li>
               </ul>
             </Callout>

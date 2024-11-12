@@ -406,6 +406,45 @@ section {
     }
 }
 
+.persona-icon-button {
+    width: 30px;
+    min-width: 32px;
+    padding: 0;
+    background: transparent;
+
+    &:hover {
+        background: transparent;
+    }
+
+    &:active {
+        background: transparent;
+    }
+
+    &:focus {
+        background: transparent;
+    }
+    img {
+        width: 30px;
+        border-radius: 50%;
+    }
+}
+.sign-out-button {
+    padding: 0;
+    background: transparent;
+
+    &:hover {
+        background: transparent;
+    }
+
+    &:active {
+        background: transparent;
+    }
+
+    &:focus {
+        background: transparent;
+    }
+}
+
 .ms-Callout-beak {
     display: none;
 }

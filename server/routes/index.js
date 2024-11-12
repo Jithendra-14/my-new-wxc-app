@@ -1,17 +1,21 @@
-const express = require("express");
-const { getBlobFromAzure } = require("../utils/azureHelpers");
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
+const express = require('express');
 const router = express.Router();
 
-router.get("/*", async (req, res, next) => {
-  const blobName = req.params[0];
-  if (!blobName) {
-    return res.status(400).json({ error: "Image URL is required" });
-  }
-  try {
-    const downloaded = await getBlobFromAzure(blobName);
-    res.status(200).send(downloaded);
-  } catch (error) {
-    res.status(500).json({ message: "Error fetching image" });
+router.get('/', function (req, res, next) {
+  // if auth pass next()
+  if(!req.session.isAuthenticated) {
+    res.render('index', {
+        title: 'MSAL Node & Express Web App',
+        isAuthenticated: req.session.isAuthenticated,
+        username: req.session.account?.username,
+    });
+  } else {
+    next();
   }
 });
 
