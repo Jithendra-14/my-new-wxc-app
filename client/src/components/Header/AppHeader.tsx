@@ -94,7 +94,7 @@ export const AppHeader = (props: any) => {
   useEffect(() => {
     const fetchPersonaDetails = async () => {
       try {
-        const response = await fetch('/user/profile');
+        const response = await fetch('/api/user/profile');
         const data = await response.json();
         setPersonaDetails(data);
         console.log('Persona details:', data);
@@ -273,7 +273,7 @@ export const AppHeader = (props: any) => {
                       <DefaultButton
                         onClick={() => {
                           toggleIsPersonaCalloutVisible();
-                          window.location.href = "/auth/signout"
+                          window.location.href = "/api/auth/signout"
                         }}
                         text="&#61579; Sign Out"
                         className="sign-out-button"
@@ -434,7 +434,7 @@ export const AppHeader = (props: any) => {
                   <DefaultButton
                     onClick={() => {
                       toggleIsPersonaCalloutVisible();
-                      window.location.href = "/auth/signout"
+                      window.location.href = "/api/auth/signout"
                     }}
                     text="&#61579; Sign Out"
                     className="elementor-item sign-out-button"

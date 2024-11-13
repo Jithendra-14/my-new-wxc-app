@@ -4,6 +4,7 @@
  */
 
 const express = require('express');
+const axios = require('axios');
 const router = express.Router();
 
 const { GRAPH_ME_ENDPOINT } = require('../authConfig');
@@ -20,7 +21,6 @@ router.get('/profile', async function (req, res, next) {
         const profile = graphResponse.data;
         res.status(200).send(profile);
     } catch (error) {
-        console.error('Error fetching profile:', error);
         res.status(400).send({ error: error.message });
     }
 });

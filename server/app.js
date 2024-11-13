@@ -13,7 +13,7 @@ var azureRouter = require("./routes/azure.js");
 var authRouter = require("./routes/auth");
 var userRouter = require("./routes/user");
 const session = require("express-session");
-// const { isAuthenticated } = require("./utils/authMiddleware.js");
+const { isAuthenticated } = require("./utils/authMiddleware.js");
 var app = express();
 
 app.use(cors());
@@ -28,7 +28,7 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
       httpOnly: true,
-      secure: true, // set this to true on production
+      secure: process.env.NODE_ENV === "production", // set this to true on production
   }
 }));
 
@@ -36,20 +36,20 @@ app.use(session({
 app.use("/api/newsletters/v2/content", generatorContentRouter);
 app.use("/api/newsletters/v2/folder", generatorFolderRouter);
 app.use("/api/newsletters/v2/preview", generatorPreviewRouter);
-app.use("/api/azure", azureRouter);
-app.use("/api", imagesRouter);
-app.use("/auth", authRouter);
-app.use("/user", userRouter);
-app.use("/", indexRouter);
+app.use("/api/azure", isAuthenticated, azureRouter);
+app.use("/api/user", isAuthenticated, userRouter);
+app.use("/api/auth", authRouter);
+app.use("/api", isAuthenticated, imagesRouter);
+app.use("/", isAuthenticated, indexRouter);
 
-app.use(express.static("build"));
+app.use(isAuthenticated, express.static("build"));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 // This should come after all other routes
-app.use("/*", (req, res) => {
+app.use("/*", isAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
