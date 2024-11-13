@@ -8,12 +8,6 @@ const router = express.Router();
 
 const { GRAPH_ME_ENDPOINT } = require('../authConfig');
 
-router.get('/id',
-    async function (req, res, next) {
-        res.render('id', { idTokenClaims: req.session.account.idTokenClaims });
-    }
-);
-
 router.get('/profile', async function (req, res, next) {
     try {
         const graphResponse = await axios.get(GRAPH_ME_ENDPOINT, {
@@ -24,7 +18,6 @@ router.get('/profile', async function (req, res, next) {
         });
 
         const profile = graphResponse.data;
-        console.log(profile);
         res.status(200).send(profile);
     } catch (error) {
         console.error('Error fetching profile:', error);
