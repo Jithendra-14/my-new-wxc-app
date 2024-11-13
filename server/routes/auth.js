@@ -11,9 +11,9 @@ const { REDIRECT_URI, POST_LOGOUT_REDIRECT_URI } = require('../authConfig');
 const router = express.Router();
 
 router.get('/signin', authProvider.login({
-    scopes: [],
+    scopes: ['User.Read', 'openid', 'profile', 'offline_access'],
     redirectUri: REDIRECT_URI,
-    successRedirect: '/'
+    successRedirect: '/api/auth/acquireToken'
 }));
 
 router.get('/acquireToken', authProvider.acquireToken({

@@ -16,7 +16,10 @@ const session = require("express-session");
 const { isAuthenticated } = require("./utils/authMiddleware.js");
 var app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: process.env.ORIGIN_URL, // Replace with your client app's origin
+  credentials: true,
+}));
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
