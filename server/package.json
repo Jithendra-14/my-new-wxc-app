@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www",
+    "start": "node ./bin/www",
     "delete:build": "rmdir build",
     "copy:client:build": "copy -r ../client/build ./build",
     "build": "cd ../client && npm run build && cd ../server && npm run delete:build && npm run copy:client:build"
