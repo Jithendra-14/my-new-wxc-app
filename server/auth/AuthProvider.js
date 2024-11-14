@@ -125,7 +125,9 @@ class AuthProvider {
             if (!req.body || !req.body.state) {
                 return next(new Error('Error: response not found'));
             }
-
+            if(!req.session.pkceCodes.verifier) {
+                res.redirect('/api/auth/signin');
+            }
             const authCodeRequest = {
                 ...req.session.authCodeRequest,
                 code: req.body.code,
