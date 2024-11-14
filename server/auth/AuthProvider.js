@@ -63,7 +63,7 @@ class AuthProvider {
                 if (req.session.tokenCache) {
                     msalInstance.getTokenCache().deserialize(req.session.tokenCache);
                 }
-                console.log(req.session);
+
                 const tokenResponse = await msalInstance.acquireTokenSilent({
                     account: req.session.account,
                     scopes: options.scopes || [],
@@ -94,7 +94,7 @@ class AuthProvider {
             if (!req.body || !req.body.state) {
                 return next(new Error('Error: response not found'));
             }
-            if(!req.session.pkceCodes.verifier) {
+            if(!req.session.pkceCodes) {
                 res.redirect('/api/auth/signin');
                 return;
             }
