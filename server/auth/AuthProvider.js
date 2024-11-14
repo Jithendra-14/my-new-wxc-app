@@ -15,11 +15,6 @@ class AuthProvider {
     login(options = {}) {
         return async (req, res, next) => {
 
-            /**
-             * MSAL Node library allows you to pass your custom state as state parameter in the Request object.
-             * The state parameter can also be used to encode information of the app's state before redirect.
-             * You can pass the user's state in the app, such as the page or view they were on, as input to this parameter.
-             */
             const state = this.cryptoProvider.base64Encode(
                 JSON.stringify({
                     successRedirect: options.successRedirect || '/',
@@ -28,32 +23,16 @@ class AuthProvider {
 
             const authCodeUrlRequestParams = {
                 state: state,
-
-                /**
-                 * By default, MSAL Node will add OIDC scopes to the auth code url request. For more information, visit:
-                 * https://docs.microsoft.com/azure/active-directory/develop/v2-permissions-and-consent#openid-connect-scopes
-                 */
                 scopes: options.scopes || [],
                 redirectUri: options.redirectUri,
             };
 
             const authCodeRequestParams = {
                 state: state,
-
-                /**
-                 * By default, MSAL Node will add OIDC scopes to the auth code request. For more information, visit:
-                 * https://docs.microsoft.com/azure/active-directory/develop/v2-permissions-and-consent#openid-connect-scopes
-                 */
                 scopes: options.scopes || [],
                 redirectUri: options.redirectUri,
             };
 
-            /**
-             * If the current msal configuration does not have cloudDiscoveryMetadata or authorityMetadata, we will 
-             * make a request to the relevant endpoints to retrieve the metadata. This allows MSAL to avoid making 
-             * metadata discovery calls, thereby improving performance of token acquisition process. For more, see:
-             * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-node/docs/performance.md
-             */
             if (!this.msalConfig.auth.cloudDiscoveryMetadata || !this.msalConfig.auth.authorityMetadata) {
 
                 const [cloudDiscoveryMetadata, authorityMetadata] = await Promise.all([
@@ -81,25 +60,15 @@ class AuthProvider {
             try {
                 const msalInstance = this.getMsalInstance(this.msalConfig);
 
-                /**
-                 * If a token cache exists in the session, deserialize it and set it as the 
-                 * cache for the new MSAL CCA instance. For more, see: 
-                 * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-node/docs/caching.md
-                 */
                 if (req.session.tokenCache) {
                     msalInstance.getTokenCache().deserialize(req.session.tokenCache);
                 }
-
+                console.log(req.session);
                 const tokenResponse = await msalInstance.acquireTokenSilent({
                     account: req.session.account,
                     scopes: options.scopes || [],
                 });
 
-                /**
-                 * On successful token acquisition, write the updated token 
-                 * cache back to the session. For more, see: 
-                 * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-node/docs/caching.md
-                 */
                 req.session.tokenCache = msalInstance.getTokenCache().serialize();
                 req.session.accessToken = tokenResponse.accessToken;
                 req.session.idToken = tokenResponse.idToken;
@@ -125,8 +94,9 @@ class AuthProvider {
             if (!req.body || !req.body.state) {
                 return next(new Error('Error: response not found'));
             }
-            if(!req.session.pkceCodes) {
+            if(!req.session.pkceCodes.verifier) {
                 res.redirect('/api/auth/signin');
+                return;
             }
             const authCodeRequest = {
                 ...req.session.authCodeRequest,
@@ -159,11 +129,6 @@ class AuthProvider {
     logout(options = {}) {
         return (req, res, next) => {
 
-            /**
-             * Construct a logout URI and redirect the user to end the
-             * session with Azure AD. For more information, visit:
-             * https://docs.microsoft.com/azure/active-directory/develop/v2-protocols-oidc#send-a-sign-out-request
-             */
             let logoutUri = `${this.msalConfig.auth.authority}/oauth2/v2.0/`;
 
             if (options.postLogoutRedirectUri) {
@@ -199,19 +164,12 @@ class AuthProvider {
             // Generate PKCE Codes before starting the authorization flow
             const { verifier, challenge } = await this.cryptoProvider.generatePkceCodes();
 
-            // Set generated PKCE codes and method as session vars
             req.session.pkceCodes = {
                 challengeMethod: 'S256',
                 verifier: verifier,
                 challenge: challenge,
             };
 
-            /**
-             * By manipulating the request objects below before each request, we can obtain
-             * auth artifacts with desired claims. For more information, visit:
-             * https://azuread.github.io/microsoft-authentication-library-for-js/ref/modules/_azure_msal_node.html#authorizationurlrequest
-             * https://azuread.github.io/microsoft-authentication-library-for-js/ref/modules/_azure_msal_node.html#authorizationcoderequest
-             **/
             req.session.authCodeUrlRequest = {
                 ...authCodeUrlRequestParams,
                 responseMode: msal.ResponseMode.FORM_POST, // recommended for confidential clients
