@@ -8,6 +8,11 @@ import { useBoolean, useId } from "@fluentui/react-hooks";
 
 import { BingLogo } from "../../icons/icons";
 import { Constants } from "../constants/Constants";
+interface PersonaDetails {
+  name?: string;
+  email?: string;
+}
+
 
 // import { SignInButton } from '../SignInButton';
 
@@ -25,7 +30,7 @@ export const AppHeader = (props: any) => {
   // const isAuthenticated = useIsAuthenticated();
   // const { instance, accounts } = useMsal();
   // const [graphData, setGraphData] = useState<any>(null);
-  const [personaDetails, setPersonaDetails] = useState(null);
+  const [personaDetails, setPersonaDetails] = useState<PersonaDetails>(null);
   const [activeNav, setActiveNav] = useState("home");
   const { pathname } = useLocation();
   // const [isOpen, { setTrue: openPanel, setFalse: dismissPanel }] = useBoolean(false);
@@ -96,8 +101,16 @@ export const AppHeader = (props: any) => {
       try {
         const response = await fetch('/.auth/me');
         const data = await response.json();
-        setPersonaDetails(data);
-        console.log('Persona details:', data);
+        const details = data[0]?.user_claims.reduce((acc: PersonaDetails, claim: any) => {
+          if(claim.typ === 'name') {
+            acc.name = claim.val;
+          } else if(claim.typ === 'preferred_username') {
+            acc.email = claim.val;
+          }
+          return acc;
+        }, {});
+        setPersonaDetails(details);
+        console.log('Persona details:', details);
       } catch (error) {
         console.error('Error fetching persona details:', error);
       }
@@ -241,7 +254,7 @@ export const AppHeader = (props: any) => {
             </li>
             <li className={"listItem"} key="profile">
               <Persona
-                text={personaDetails?.displayName}
+                text={personaDetails?.name || personaDetails?.email}
                 hidePersonaDetails={true}
                 onClick={toggleIsPersonaCalloutVisible}
                 size={PersonaSize.size32}
@@ -261,7 +274,7 @@ export const AppHeader = (props: any) => {
                   <ul className="persona-menu">
                     <li>
                       <Persona
-                        text={personaDetails?.displayName}
+                        text={personaDetails?.name || personaDetails?.email}
                         size={PersonaSize.size32}
                         presence={PersonaPresence.none}
                       />
@@ -317,7 +330,7 @@ export const AppHeader = (props: any) => {
               <ul className="nav-menu-mobile">
                 <li className="listItem">
                   <Persona
-                    text={personaDetails?.displayName}
+                    text={personaDetails?.name || personaDetails?.email}
                     size={PersonaSize.size32}
                     presence={PersonaPresence.none}
                     className="elementor-item"
