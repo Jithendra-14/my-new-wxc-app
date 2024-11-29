@@ -1,7 +1,14 @@
 import "./appHeader.scss";
 import "../MainContainer/mainContainer.scss";
 
-import { Callout, DefaultButton, mergeStyleSets, Persona, PersonaSize, PersonaPresence } from "@fluentui/react";
+import {
+  Callout,
+  DefaultButton,
+  mergeStyleSets,
+  Persona,
+  PersonaSize,
+  PersonaPresence,
+} from "@fluentui/react";
 import React, { useEffect, useState } from "react";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import { useBoolean, useId } from "@fluentui/react-hooks";
@@ -12,7 +19,6 @@ interface PersonaDetails {
   name?: string;
   email?: string;
 }
-
 
 // import { SignInButton } from '../SignInButton';
 
@@ -99,20 +105,23 @@ export const AppHeader = (props: any) => {
   useEffect(() => {
     const fetchPersonaDetails = async () => {
       try {
-        const response = await fetch('/.auth/me');
+        const response = await fetch("/.auth/me");
         const data = await response.json();
-        const details = data[0]?.user_claims.reduce((acc: PersonaDetails, claim: any) => {
-          if(claim.typ === 'name') {
-            acc.name = claim.val;
-          } else if(claim.typ === 'preferred_username') {
-            acc.email = claim.val;
-          }
-          return acc;
-        }, {});
+        const details = data[0]?.user_claims.reduce(
+          (acc: PersonaDetails, claim: any) => {
+            if (claim.typ === "name") {
+              acc.name = claim.val;
+            } else if (claim.typ === "preferred_username") {
+              acc.email = claim.val;
+            }
+            return acc;
+          },
+          {}
+        );
         setPersonaDetails(details);
-        console.log('Persona details:', details);
+        console.log("Persona details:", details);
       } catch (error) {
-        console.error('Error fetching persona details:', error);
+        console.error("Error fetching persona details:", error);
       }
     };
 
@@ -127,10 +136,13 @@ export const AppHeader = (props: any) => {
   //     ),
   //     [dismissPanel],
   // );
-  const [isCalloutVisible, { toggle: toggleIsCalloutVisible }] =
-    useBoolean(false);
-  const [isPersonaCalloutVisible, { toggle: toggleIsPersonaCalloutVisible }] =
-    useBoolean(false);
+  const [isCalloutVisible, { toggle: toggleIsCalloutVisible }] = useBoolean(
+    false
+  );
+  const [
+    isPersonaCalloutVisible,
+    { toggle: toggleIsPersonaCalloutVisible },
+  ] = useBoolean(false);
 
   const styles = mergeStyleSets({
     callout: {
@@ -144,7 +156,7 @@ export const AppHeader = (props: any) => {
       padding: "10px 12px",
       borderRadius: "5px",
       overflow: "hidden",
-    }
+    },
   });
   const buttonId = useId("callout-button");
   const personaButtonId = useId("persona-callout-button");
@@ -252,51 +264,56 @@ export const AppHeader = (props: any) => {
                 {Constants.Tools}
               </RouterLink>
             </li>
-            <li className={"listItem"} key="profile">
-              <Persona
-                text={personaDetails?.name || personaDetails?.email}
-                hidePersonaDetails={true}
-                onClick={toggleIsPersonaCalloutVisible}
-                size={PersonaSize.size32}
-                presence={PersonaPresence.none}
-                id={personaButtonId}
-                styles={{ root: { cursor: "pointer" }, details: {padding: 0} }}
-              />
-              {isPersonaCalloutVisible && (
-                <Callout
-                  className={styles.personaCallout}
-                  role="dialog"
-                  target={`#${personaButtonId}`}
-                  onDismiss={toggleIsPersonaCalloutVisible}
-                  directionalHint={6}
-                  gapSpace={10}
-                >
-                  <ul className="persona-menu">
-                    <li>
-                      <Persona
-                        text={personaDetails?.name || personaDetails?.email}
-                        size={PersonaSize.size32}
-                        presence={PersonaPresence.none}
-                      />
-                    </li>
-                    <li>
-                      <hr className="divider"/>
-                    </li>
-                    <li>
-                      <DefaultButton
-                        onClick={() => {
-                          toggleIsPersonaCalloutVisible();
-                          window.location.href = "/.auth/logout"
-                        }}
-                        text="Sign Out"
-                        className="sign-out-button"
-                        styles={{ label: { margin: 0 } }}
-                      />
-                    </li>
-                  </ul>
-                </Callout>
-              )}
-            </li>
+            {personaDetails !== null && (
+              <li className={"listItem"} key="profile">
+                <Persona
+                  text={personaDetails?.name || personaDetails?.email}
+                  hidePersonaDetails={true}
+                  onClick={toggleIsPersonaCalloutVisible}
+                  size={PersonaSize.size32}
+                  presence={PersonaPresence.none}
+                  id={personaButtonId}
+                  styles={{
+                    root: { cursor: "pointer" },
+                    details: { padding: 0 },
+                  }}
+                />
+                {isPersonaCalloutVisible && (
+                  <Callout
+                    className={styles.personaCallout}
+                    role="dialog"
+                    target={`#${personaButtonId}`}
+                    onDismiss={toggleIsPersonaCalloutVisible}
+                    directionalHint={6}
+                    gapSpace={10}
+                  >
+                    <ul className="persona-menu">
+                      <li>
+                        <Persona
+                          text={personaDetails?.name || personaDetails?.email}
+                          size={PersonaSize.size32}
+                          presence={PersonaPresence.none}
+                        />
+                      </li>
+                      <li>
+                        <hr className="divider" />
+                      </li>
+                      <li>
+                        <DefaultButton
+                          onClick={() => {
+                            toggleIsPersonaCalloutVisible();
+                            window.location.href = "/.auth/logout";
+                          }}
+                          text="Sign Out"
+                          className="sign-out-button"
+                          styles={{ label: { margin: 0 } }}
+                        />
+                      </li>
+                    </ul>
+                  </Callout>
+                )}
+              </li>
+            )}
             {/* <li className={activeNav === "components" ? "listItem active" : "listItem"} key="components">
                             <RouterLink
                                 className="elementor-item"
@@ -328,17 +345,21 @@ export const AppHeader = (props: any) => {
               onDismiss={toggleIsCalloutVisible}
             >
               <ul className="nav-menu-mobile">
-                <li className="listItem">
-                  <Persona
-                    text={personaDetails?.name || personaDetails?.email}
-                    size={PersonaSize.size32}
-                    presence={PersonaPresence.none}
-                    className="elementor-item"
-                  />
-                </li>
-                <li>
-                  <hr className="divider"/>
-                </li>
+                {personaDetails !== null && (
+                  <React.Fragment>
+                    <li className="listItem">
+                      <Persona
+                        text={personaDetails?.name || personaDetails?.email}
+                        size={PersonaSize.size32}
+                        presence={PersonaPresence.none}
+                        className="elementor-item"
+                      />
+                    </li>
+                    <li>
+                      <hr className="divider" />
+                    </li>
+                  </React.Fragment>
+                )}
                 <li
                   className={
                     activeNav === "home" ? "listItem active" : "listItem"
@@ -440,20 +461,24 @@ export const AppHeader = (props: any) => {
                     {Constants.Components}
                   </RouterLink>
                 </li>
-                <li>
-                  <hr className="divider"/>
-                </li>
-                <li className="list-item">
-                  <DefaultButton
-                    onClick={() => {
-                      toggleIsPersonaCalloutVisible();
-                      window.location.href = "/.auth/logout"
-                    }}
-                    text="Sign Out"
-                    className="elementor-item sign-out-button"
-                    styles={{ label: { margin: 0 } }}
-                  />
-                </li>
+                {personaDetails !== null && (
+                  <React.Fragment>
+                    <li>
+                      <hr className="divider" />
+                    </li>
+                    <li className="list-item">
+                      <DefaultButton
+                        onClick={() => {
+                          toggleIsPersonaCalloutVisible();
+                          window.location.href = "/.auth/logout";
+                        }}
+                        text="Sign Out"
+                        className="elementor-item sign-out-button"
+                        styles={{ label: { margin: 0 } }}
+                      />
+                    </li>
+                  </React.Fragment>
+                )}
               </ul>
             </Callout>
           )}
